@@ -1,5 +1,8 @@
 import pandas as pd
-
+import streamlit as st
+from my_package.data_loader import load_data
+from my_package.eda import perform_eda
+from my_package.model_trainer import train_regression_model, train_classification_model
 
 def load_data(file_path):
     data = pd.read_csv(file_path)  # Modify this based on your data type (e.g., CSV, Excel)
@@ -24,12 +27,6 @@ def train_classification_model(data, target_variable, models=None):
     setup(data, target=target_variable)
     best_model = compare_models(include=models)
     return best_model
-import streamlit as st
-from my_package.data_loader import load_data
-from my_package.eda import perform_eda
-from my_package.model_trainer import train_regression_model, train_classification_model
-
-
 def main():
     st.title("My PyCaret Package Web App")
 
@@ -44,9 +41,9 @@ def main():
 
     # EDA
     st.header("Exploratory Data Analysis (EDA)")
-    if st.button("Perform EDA"):
-        profile = perform_eda(data)
-        st_profile_report(profile)
+    #if st.button("Perform EDA"):
+     #   profile = perform_eda(data)
+      #  st_profile_report(profile)
 
     # Model Training
     st.header("Model Training")
