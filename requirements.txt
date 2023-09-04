@@ -1,2 +1,2 @@
 streamlit
-bokeh
+bokeh 3.2.2
