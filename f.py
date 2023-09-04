@@ -3,7 +3,8 @@ import streamlit as st
 from my_package.data_loader import load_data
 from my_package.eda import perform_eda
 from my_package.model_trainer import train_regression_model, train_classification_model
-
+from pycaret.regression import *
+from pycaret.classification import *
 def load_data(file_path):
     data = pd.read_csv(file_path)  # Modify this based on your data type (e.g., CSV, Excel)
     return data
@@ -13,8 +14,7 @@ import pandas_profiling
 def perform_eda(data):
     profile = pandas_profiling.ProfileReport(data)
     return profile
-from pycaret.regression import *
-from pycaret.classification import *
+
 
 
 def train_regression_model(data, target_variable, models=None):
