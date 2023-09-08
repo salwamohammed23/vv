@@ -56,7 +56,7 @@ def main():
 
         # Select target variable
         target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
-        set= setup(data =data,normalize=True,target=target_variable, session_id =123)
+        set= setup(data =data,normalize=True,target=target_variable)
 
         # Perform EDA
         #perform_eda(data)
