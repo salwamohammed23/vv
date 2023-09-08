@@ -2,7 +2,11 @@ import pandas as pd
 import streamlit as st
 from sklearn.model_selection import train_test_split
 from pycaret.datasets import get_data
-
+from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
+from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.metrics import mean_squared_error, accuracy_score
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 from pycaret.regression import *
 from pycaret.classification import *
