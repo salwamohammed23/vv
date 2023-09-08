@@ -24,7 +24,7 @@ def train_models(X_train, y_train, models, model_type):
             trained_model = finalize_model(model)
             trained_models[model_name] = trained_model
     else:
-        setup(data=X_train, target=y_train, silent=True, train_size=0.8)
+        setup(data=X_train, target=y_train, silent=True)
         for model_name in models:
             model = create_model(model_name)
             trained_model = finalize_model(model)
