@@ -4,3 +4,4 @@ pandas
 pandas-profiling
 pycaret
 streamlit
+mlflow
