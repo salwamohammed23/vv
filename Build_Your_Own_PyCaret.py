@@ -82,8 +82,8 @@ def main():
             models.update(selected_models)
 
         if st.radio('Use Classification Models', ('Yes', 'No')):
-            selected_cmodels = st.multiselect("Select models", ["lrc", "rfc", "xgboostc"])
-            models.update(selected_cmodels)
+            selected_models = st.multiselect("Select models", ["lrc", "rfc", "xgboostc"])
+            models.update(selected_models)
 
         if st.button('Train Models'):
             trained_models = train_models(X_train, y_train, models)
