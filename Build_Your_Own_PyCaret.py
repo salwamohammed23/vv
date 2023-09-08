@@ -66,9 +66,7 @@ def main():
         # Split data into training and testing sets
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-        model_type = st.sidebar.selectbox(
-            'Select classifier',
-            ('Regression', 'Classification')
+
         )
 
         # Select models
