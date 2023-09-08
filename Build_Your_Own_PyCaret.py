@@ -10,10 +10,12 @@ import seaborn as sns
 
 from pycaret.regression import *
 from pycaret.classification import *
+
 # Function to load data
 def load_data(file):
     data = pd.read_csv(file)
     return data
+
 def train_models(X, y, models):
     results = {}
 
@@ -22,6 +24,7 @@ def train_models(X, y, models):
         results[model_name] = model
 
     return results
+
 # Function to test and evaluate models
 def evaluate_models(X_test, y_test, models):
     scores = {}
@@ -37,6 +40,7 @@ def evaluate_models(X_test, y_test, models):
         scores[model_name] = score
 
     return scores
+
 def main():
     st.sidebar.title('Machine Learning Package')
 
@@ -48,7 +52,6 @@ def main():
         data = load_data(file)
         st.sidebar.success('Data successfully loaded!')
         st.write(data.head())
-
 
         # Select target variable
         target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
@@ -68,22 +71,19 @@ def main():
             ('Regression', 'Classification')
         )
 
-
         # Select models
         models = {}
-
 
         model_type = st.radio("Select the model type", ("Regression", "Classification"))
         selected_models = st.multiselect("Select models", ["lr", "rf", "xgboost"])
 
         if st.radio('Use Regression Models'):
-        
             selected_models = st.multiselect("Select models", ["lr", "rf", "xgboost"])
             models.update(selected_models)
 
         if st.radio('Use Classification Models'):
-           selected_cmodels = st.multiselect("Select models", ["lrc", "rfc", "xgboostc"])
-           models.update(selected_cmodels)
+            selected_cmodels = st.multiselect("Select models", ["lrc", "rfc", "xgboostc"])
+            models.update(selected_cmodels)
 
         if st.button('Train Models'):
             trained_models = train_models(X_train, y_train, models)
