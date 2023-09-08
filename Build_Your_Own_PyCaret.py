@@ -50,7 +50,7 @@ def main():
         target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
 
         # Perform EDA
-        perform_eda(data)
+        #perform_eda(data)
 
         # Split data into features and target
         X = data.drop(target_variable, axis=1)
