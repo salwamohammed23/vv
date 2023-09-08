@@ -68,25 +68,22 @@ def main():
             ('Regression', 'Classification')
         )
 
-        model_type = st.radio("Select the model type", ("Regression", "Classification"))
-        selected_models = st.multiselect("Select models", ["lr", "rf", "xgboost"])
 
         # Select models
         models = {}
-        regression_models = {
-            'Random Forest Regressor': RandomForestRegressor(),
-            'Linear Regression': LinearRegression()
-        }
-        classification_models = {
-            'Random Forest Classifier': RandomForestClassifier(),
-            'Logistic Regression': LogisticRegression()
-        }
 
-        if st.checkbox('Use Regression Models'):
-            models.update(regression_models)
 
-        if st.checkbox('Use Classification Models'):
-            models.update(classification_models)
+        model_type = st.radio("Select the model type", ("Regression", "Classification"))
+        selected_models = st.multiselect("Select models", ["lr", "rf", "xgboost"])
+
+        if st.radio('Use Regression Models'):
+        
+            selected_models = st.multiselect("Select models", ["lr", "rf", "xgboost"])
+            models.update(selected_models)
+
+        if st.radio('Use Classification Models'):
+           selected_cmodels = st.multiselect("Select models", ["lrc", "rfc", "xgboostc"])
+           models.update(selected_cmodels)
 
         if st.button('Train Models'):
             trained_models = train_models(X_train, y_train, models)
