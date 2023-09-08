@@ -77,11 +77,11 @@ def main():
         model_type = st.radio("Select the model type", ("Regression", "Classification"))
         selected_models = st.multiselect("Select models", ["lr", "rf", "xgboost"])
 
-        if st.radio('Use Regression Models'):
+        if st.radio('Use Regression Models', ('Yes', 'No')):
             selected_models = st.multiselect("Select models", ["lr", "rf", "xgboost"])
             models.update(selected_models)
 
-        if st.radio('Use Classification Models'):
+        if st.radio('Use Classification Models', ('Yes', 'No')):
             selected_cmodels = st.multiselect("Select models", ["lrc", "rfc", "xgboostc"])
             models.update(selected_cmodels)
 
