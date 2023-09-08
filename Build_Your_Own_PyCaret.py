@@ -18,6 +18,7 @@ def load_data(file):
 
 def train_models(X, y, models):
     results = {}
+    set= setup(data =data,normalize=True,target="species" , session_id =123)
 
     for model_name, model in models.items():
         model.fit(X, y)
