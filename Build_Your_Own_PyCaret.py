@@ -72,12 +72,12 @@ def main():
         model_type = st.radio("Select the model type", ("Regression", "Classification"))
 
         if model_type == 'Regression':
-            selected_models = st.multiselect("Select models", ['gbr', 'lightgbm','xgboost','lar','llar','et', 'en','lasso', 'knn', 
+            selected_models = st.selectbox("Select models", ['gbr', 'lightgbm','xgboost','lar','llar','et', 'en','lasso', 'knn', 
                                                               'ada', 'omp', 'par', 'huber', 'dt',"lr", 'br',"rf", "ridge","dummy"])
             models.update({model: True for model in selected_models})
 
         if model_type == 'Classification':
-            selected_models = st.multiselect("Select models", ['gbc', 'lightgbm', 'ada','xgboost','lda','et', 'gbc','ada', 'knn', "lr", "rf", "ridge","dummy"])
+            selected_models = st.selectbox("Select models", ['gbc', 'lightgbm', 'ada','xgboost','lda','et', 'gbc','ada', 'knn', "lr", "rf", "ridge","dummy"])
             models.update({model: True for model in selected_models})
 
         if st.button('Train Models'):
