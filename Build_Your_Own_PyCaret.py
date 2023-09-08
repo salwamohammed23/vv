@@ -17,7 +17,7 @@ def train_models(X_train, y_train, models):
     trained_models = {}
 
     for model_name in models:
-        if 'Regressor' in model_name:
+        if 'Regression' in model_name:
             model = create_model(model_name)
         else:
             model = create_model(model_name, fold=5)
@@ -32,7 +32,7 @@ def evaluate_models(X_test, y_test, trained_models):
     scores = {}
 
     for model_name, model in trained_models.items():
-        if 'Regressor' in model_name:
+        if 'Regression' in model_name:
             y_pred = model.predict(X_test)
             score = mean_squared_error(y_test, y_pred)
         else:
