@@ -70,13 +70,15 @@ def main():
         models = {}
 
         model_type = st.radio("Select the model type", ("Regression", "Classification"))
-        best_model=compare_models()
+        
         if model_type == 'Regression':
+            best_model=compare_models()
             st.text(print(best_model))
             selected_models = st.multiselect("Select models", ["lr", "rf", "xgboost"])
             models.update(selected_models)
 
         if model_type == 'Classification':
+            best_model=compare_models()
             st.text(print(best_model))
             selected_models = st.multiselect("Select models", ["lrc", "rfc", "xgboostc"])
             models.update(selected_models)
