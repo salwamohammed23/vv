@@ -74,13 +74,14 @@ def main():
         if model_type == 'Regression':
             best_model = compare_models()
             st.text(best_model)
-            selected_models = st.multiselect("Select models", ["lr", "rf", "xgboost"])
+            selected_models = st.multiselect("Select models", ['gbr', 'lightgbm','xgboost','lar','llar','et', 'en','lasso', 'knn', 
+                                                              'ada', 'omp', 'par', 'huber', 'dt',"lr", 'br',"rf", "ridge","dummy"])
             models.update({model: True for model in selected_models})
 
         if model_type == 'Classification':
             best_model = compare_class_models()
             st.text(best_model)
-            selected_models = st.multiselect("Select models", ["lr", "rf", "xgboost"])
+            selected_models = st.multiselect("Select models", ['gbc', 'lightgbm', 'ada','xgboost','lda','et', 'gbc','ada', 'knn', "lr", "rf", "ridge","dummy"])
             models.update({model: True for model in selected_models})
 
         if st.button('Train Models'):
