@@ -32,7 +32,7 @@ def evaluate_models(X_test, y_test, models):
         scores[model_name] = score
 
     return scores
-  def main():
+def main():
     st.sidebar.title('Machine Learning Package')
 
     # Upload data
