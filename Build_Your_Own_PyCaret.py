@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
-
+from pycaret.classification import *
+from pycaret.regression import *
 from sklearn.model_selection import train_test_split
 from pycaret.datasets import get_data
 from sklearn.metrics import mean_squared_error, accuracy_score
