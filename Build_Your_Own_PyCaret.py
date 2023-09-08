@@ -15,22 +15,7 @@ from pycaret.classification import *
 def load_data(file):
     data = pd.read_csv(file)
     return data
-
-def train_models(X, y, models):
-    results = {}
-    
-
-    for model_name, model in models.items():
-        model.fit(X, y)
-        results[model_name] = model
-
-    return results
-
-# Function to test and evaluate models
-def evaluate_models(X_test, y_test, models):
-    scores = {}
-
-    for model_name, model in models.items():
+  
         if 'Regressor' in model_name:
             y_pred = model.predict(X_test)
             score = mean_squared_error(y_test, y_pred)
@@ -56,7 +41,7 @@ def main():
 
         # Select target variable
         target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
-        set= setup(data =data,normalize=True,target=target_variable)
+        set= setup(data, target = target_variable , log_experiment = True)
 
         # Perform EDA
         #perform_eda(data)
