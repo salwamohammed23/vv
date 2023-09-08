@@ -16,7 +16,7 @@ def load_data(file):
 def train_models(X_train, y_train, models):
     trained_models = {}
 
-    if 'Regression' in models[0]:
+    if model_type == 'Regression':
         setup(data=X_train, target=y_train, silent=True)
         for model_name in models:
             model = create_model(model_name)
@@ -85,7 +85,7 @@ def main():
             models.update({model: True for model in selected_models})
 
         if st.button('Train Models'):
-            trained_models = train_models(X_train, y_train, models)
+            trained_models = train_models(X_train, y_train, models,model_type)
             st.success('Models trained successfully!')
 
             # Evaluate models
