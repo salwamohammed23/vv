@@ -70,7 +70,6 @@ def main():
         models = {}
 
         model_type = st.radio("Select the model type", ("Regression", "Classification"))
-        selected_models = st.multiselect("Select models", ["lr", "rf", "xgboost"])
 
         if model_type == 'Regression':
             selected_models = st.multiselect("Select models", ["lr", "rf", "xgboost"])
