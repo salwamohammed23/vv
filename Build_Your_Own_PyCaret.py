@@ -2,20 +2,35 @@ import pandas as pd
 import streamlit as st
 from sklearn.model_selection import train_test_split
 from pycaret.datasets import get_data
-from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
-from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.metrics import mean_squared_error, accuracy_score
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-from pycaret.regression import *
-from pycaret.classification import *
+from pycaret.regression import compare_models, setup, create_model, finalize_model
+from pycaret.classification import compare_models as compare_class_models
 
 # Function to load data
 def load_data(file):
     data = pd.read_csv(file)
     return data
-  
+
+# Function to train models
+def train_models(X_train, y_train, models):
+    trained_models = {}
+
+    for model_name in models:
+        if 'Regressor' in model_name:
+            model = create_model(model_name)
+        else:
+            model = create_model(model_name, fold=5)
+
+        trained_model = finalize_model(model)
+        trained_models[model_name] = trained_model
+
+    return trained_models
+
+# Function to evaluate models
+def evaluate_models(X_test, y_test, trained_models):
+    scores = {}
+
+    for model_name, model in trained_models.items():
         if 'Regressor' in model_name:
             y_pred = model.predict(X_test)
             score = mean_squared_error(y_test, y_pred)
@@ -41,10 +56,7 @@ def main():
 
         # Select target variable
         target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
-        set= setup(data, target = target_variable , log_experiment = True)
-
-        # Perform EDA
-        #perform_eda(data)
+        setup(data, target=target_variable, log_experiment=True)
 
         # Split data into features and target
         X = data.drop(target_variable, axis=1)
@@ -57,18 +69,18 @@ def main():
         models = {}
 
         model_type = st.radio("Select the model type", ("Regression", "Classification"))
-        
-        best_model=compare_models()
-        
+
         if model_type == 'Regression':
-            st.text(print(best_model))
+            best_model = compare_models()
+            st.text(best_model)
             selected_models = st.multiselect("Select models", ["lr", "rf", "xgboost"])
-            models.update(selected_models)
+            models.update({model: True for model in selected_models})
 
         if model_type == 'Classification':
-            st.text(print(best_model))
-            selected_models = st.multiselect("Select models", ["lrc", "rfc", "xgboostc"])
-            models.update(selected_models)
+            best_model = compare_class_models()
+            st.text(best_model)
+            selected_models = st.multiselect("Select models", ["lr", "rf", "xgboost"])
+            models.update({model: True for model in selected_models})
 
         if st.button('Train Models'):
             trained_models = train_models(X_train, y_train, models)
