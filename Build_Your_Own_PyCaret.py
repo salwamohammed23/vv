@@ -57,7 +57,7 @@ def main():
 
         # Select target variable
         target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
-        setup(data, target=target_variable, log_experiment=True)
+        
 
         # Split data into features and target
         X = data.drop(target_variable, axis=1)
@@ -72,15 +72,11 @@ def main():
         model_type = st.radio("Select the model type", ("Regression", "Classification"))
 
         if model_type == 'Regression':
-            best_model = compare_models()
-            st.text(best_model)
             selected_models = st.multiselect("Select models", ['gbr', 'lightgbm','xgboost','lar','llar','et', 'en','lasso', 'knn', 
                                                               'ada', 'omp', 'par', 'huber', 'dt',"lr", 'br',"rf", "ridge","dummy"])
             models.update({model: True for model in selected_models})
 
         if model_type == 'Classification':
-            best_model = compare_class_models()
-            st.text(best_model)
             selected_models = st.multiselect("Select models", ['gbc', 'lightgbm', 'ada','xgboost','lda','et', 'gbc','ada', 'knn', "lr", "rf", "ridge","dummy"])
             models.update({model: True for model in selected_models})
 
