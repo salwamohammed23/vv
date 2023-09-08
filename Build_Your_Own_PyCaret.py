@@ -18,7 +18,7 @@ def load_data(file):
 
 def train_models(X, y, models):
     results = {}
-    set= setup(data =data,normalize=True,target="species" , session_id =123)
+    
 
     for model_name, model in models.items():
         model.fit(X, y)
@@ -56,6 +56,7 @@ def main():
 
         # Select target variable
         target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
+        set= setup(data =data,normalize=True,target=target_variable, session_id =123)
 
         # Perform EDA
         #perform_eda(data)
@@ -71,6 +72,7 @@ def main():
         models = {}
 
         model_type = st.radio("Select the model type", ("Regression", "Classification"))
+        
         best_model=compare_models()
         
         if model_type == 'Regression':
