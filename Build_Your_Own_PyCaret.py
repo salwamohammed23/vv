@@ -16,14 +16,18 @@ def load_data(file):
 def train_models(X_train, y_train, models):
     trained_models = {}
 
-    for model_name in models:
-        if 'Regression' in model_name:
+    if 'Regression' in models[0]:
+        setup(data=X_train, target=y_train, silent=True)
+        for model_name in models:
             model = create_model(model_name)
-        else:
-            model = create_model(model_name, fold=5)
-
-        trained_model = finalize_model(model)
-        trained_models[model_name] = trained_model
+            trained_model = finalize_model(model)
+            trained_models[model_name] = trained_model
+    else:
+        setup(data=X_train, target=y_train, silent=True, train_size=0.8)
+        for model_name in models:
+            model = create_model(model_name)
+            trained_model = finalize_model(model)
+            trained_models[model_name] = trained_model
 
     return trained_models
 
