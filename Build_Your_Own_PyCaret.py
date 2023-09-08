@@ -13,7 +13,7 @@ def load_data(file):
     return data
 
 # Function to train models
-def train_models(X_train, y_train, models):
+def train_models(X_train, y_train, models, model_type):
     trained_models = {}
 
     if model_type == 'Regression':
