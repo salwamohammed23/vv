@@ -7,6 +7,7 @@ from pycaret.datasets import get_data
 from sklearn.metrics import mean_squared_error, accuracy_score
 from pycaret.regression import compare_models, setup, create_model, finalize_model
 from pycaret.classification import compare_models as compare_class_models
+from pycaret.classification import setup, create_model, finalize_model
 
 # Function to load data
 def load_data(file):
@@ -14,29 +15,41 @@ def load_data(file):
     return data
 
 # Function to train models
-from pycaret.classification import create_model as create_classification_model
-from pycaret.regression import create_model as create_regression_model
-
-# Function to train models
-def train_models(X_train, y_train, model_type, selected_models,model_type):
+def train_models(X_train, y_train, model_type, selected_models):
     trained_models = {}
 
     if model_type == 'Classification':
+        # Set up the classification problem
+        clf = setup(data=X_train, target=y_train)
+        
         for model_name in selected_models:
             model = create_classification_model(model_name, fold=5)
             trained_model = finalize_model(model)
             trained_models[model_name] = trained_model
 
-    elif model_type == 'Regression':
+    # Function to train models
+def train_models(X_train, y_train, model_type, selected_models):
+    trained_models = {}
+
+    if model_type == 'Classification':
+        # Set up the classification problem
+        clf = setup(data=X_train, target=y_train)
+        
+        for model_name in selected_models:
+            model = create_classification_model(model_name, fold=5)
+            trained_model = finalize_model(model)
+            trained_models[model_name] = trained_model
+
+    else:
+        reg = setup(data=X_train, target=y_train)
         for model_name in selected_models:
             model = create_regression_model(model_name)
             trained_model = finalize_model(model)
             trained_models[model_name] = trained_model
 
-    else:
-        raise ValueError("Invalid model type. Supported types: 'Classification', 'Regression'")
-
     return trained_models
+
+
 
 # Function to evaluate models
 def evaluate_models(X_test, y_test, trained_models):
