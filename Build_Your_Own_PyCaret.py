@@ -19,8 +19,8 @@ def load_data(file):
 
 
 def generate_eda(data, target_variable):
-    df = pd.concat([data, target_variable], axis=1)
-    s = setup(data=df, target=target_variable.name, session_id=123)
+
+    s = setup(data=data, target=target_variable.name, session_id=123)
     eda_output = eda()
     return eda_output
 
