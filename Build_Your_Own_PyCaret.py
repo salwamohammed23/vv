@@ -107,7 +107,7 @@ def main():
     # Display EDA
     st.subheader('Exploratory Data Analysis')
     if st.button('Generate EDA'):
-        eda_output = generate_eda()
+        eda_output = generate_eda(data, target_variable)
         st.write(eda_output)
 
         # Split data into training and testing sets
