@@ -95,7 +95,7 @@ def main():
         y = data[target_variable]
         # appling ada
         # Set page title and layout
-    st.set_page_config(page_title='PyCaret Streamlit Example')
+    #st.set_page_config(page_title='PyCaret Streamlit Example')
 
     # Display a title
     st.title('PyCaret Streamlit Example')
