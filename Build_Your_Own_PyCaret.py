@@ -19,27 +19,13 @@ def load_data(file):
 
 
 def generate_eda(data, target_variable):
-    s = setup(data, target = target_variable, session_id = 123)   
+    s = setup(data, target=target_variable, session_id=123)   
     # generate EDA
     eda_output = eda()
     return eda_output
 
 
 
-# Function to train models
-def train_models(X_train, y_train, model_type, selected_models):
-    trained_models = {}
-
-    if model_type == 'Classification':
-        # Set up the classification problem
-        clf = setup(data=X_train, target=y_train)
-        
-        for model_name in selected_models:
-            model = create_classification_model(model_name, fold=5)
-            trained_model = finalize_model(model)
-            trained_models[model_name] = trained_model
-
-    # Function to train models
 def train_models(X_train, y_train, model_type, selected_models):
     trained_models = {}
 
