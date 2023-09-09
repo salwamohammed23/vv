@@ -17,7 +17,7 @@ def load_data(file):
 # Init setup
 #s = setup(data, target=target_variable, session_id=123)
 
-
+@st.cache
 def generate_eda(data, target_variable):
 
     s = setup(data=data, target=target_variable, session_id=123)
