@@ -13,9 +13,13 @@ from pycaret.classification import setup, create_model as create_classification,
 def load_data(file):
     data = pd.read_csv(file)
     return data
+    
+# Init setup
+s = setup(data, target=target_variable, session_id=123)
+
 
 def generate_eda(data, target_variable):
-    s = setup(data, target = target_variable, session_id = 123)   
+    #s = setup(data, target = target_variable, session_id = 123)   
     # generate EDA
     eda_output = eda()
     return eda_output
@@ -99,11 +103,7 @@ def main():
     #st.set_page_config(page_title='PyCaret Streamlit Example')
 
     # Display a title
-    st.title('PyCaret Streamlit Example')
-
-    # Display dataset
-    st.subheader('Dataset')
-    st.write(data)
+    st.title('perform EDA')
 
     # Display EDA
     st.subheader('Exploratory Data Analysis')
