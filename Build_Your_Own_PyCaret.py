@@ -18,7 +18,7 @@ def load_data(file):
 #s = setup(data, target=target_variable, session_id=123)
 
 
-def generate_eda(data, target_variable):
+def generate_eda(X, target_variable):
     s = setup(data, target=target_variable, session_id=123)   
     # generate EDA
     eda_output = eda()
