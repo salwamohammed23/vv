@@ -13,6 +13,13 @@ from pycaret.classification import setup, create_model as create_classification,
 def load_data(file):
     data = pd.read_csv(file)
     return data
+def generate_eda(data, target_variable):
+    s = setup(data, target = target_variable, session_id = 123)
+    # generate EDA
+    eda_output=eda()
+    return eda_output
+
+
 
 # Function to train models
 def train_models(X_train, y_train, model_type, selected_models):
@@ -86,6 +93,22 @@ def main():
         # Split data into features and target
         X = data.drop(target_variable, axis=1)
         y = data[target_variable]
+        # appling ada
+        # Set page title and layout
+    st.set_page_config(page_title='PyCaret Streamlit Example')
+
+    # Display a title
+    st.title('PyCaret Streamlit Example')
+
+    # Display dataset
+    st.subheader('Dataset')
+    st.write(data)
+
+    # Display EDA
+    st.subheader('Exploratory Data Analysis')
+    if st.button('Generate EDA'):
+        eda_output = generate_eda()
+        st.write(eda_output)
 
         # Split data into training and testing sets
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
