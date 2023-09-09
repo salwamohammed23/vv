@@ -79,51 +79,59 @@ def main():
 
         # Select target variable
         target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
-        
+
+        # Check if data is empty
+        if data.empty:
+            st.error('The uploaded data is empty.')
+            return
 
         # Split data into features and target
         X = data.drop(target_variable, axis=1)
         y = data[target_variable]
-        # appling ada
-        # Set page title and layout
-    #st.set_page_config(page_title='PyCaret Streamlit Example')
 
-    # Display a title
-    st.title('perform EDA')
+        # Display a title
+        st.title('Perform EDA')
 
-    # Display EDA
-    st.subheader('Exploratory Data Analysis')
-    if st.button('Generate EDA'):
-        eda_output = generate_eda(data, target_variable)
-        st.write(eda_output)
+        # Display EDA
+        st.subheader('Exploratory Data Analysis')
+        if st.button('Generate EDA'):
+            if X.empty:
+                st.error('The feature data is empty.')
+                return
+            eda_output = generate_eda(X, target_variable)
+            st.write(eda_output[0])
 
-        # Split data into training and testing sets
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+            # Split data into training and testing sets
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-        # Select models
-        models = {}
+            # Check if training data is empty
+            if X_train.empty or y_train.empty:
+                st.error('The training data is empty.')
+                return
 
-        model_type = st.radio("Select the model type", ("Regression", "Classification"))
+            # Select models
+            models = {}
 
-        if model_type == 'Regression':
-            selected_models = st.selectbox("Select models", ['gbr', 'lightgbm','xgboost','lar','llar','et', 'en','lasso', 'knn', 
-                                                              'ada', 'omp', 'par', 'huber', 'dt',"lr", 'br',"rf", "ridge","dummy"])
-            models.update({model: True for model in selected_models})
+            model_type = st.radio("Select the model type", ("Regression", "Classification"))
 
-        if model_type == 'Classification':
-            selected_models = st.selectbox("Select models", ['gbc', 'lightgbm', 'ada','xgboost','lda','et', 'gbc','ada', 'knn', "lr", "rf", "ridge","dummy"])
-            models.update({model: True for model in selected_models})
+            if model_type == 'Regression':
+                selected_models = st.selectbox("Select models", ['gbr', 'lightgbm', 'xgboost', 'lar', 'llar', 'et', 'en', 'lasso', 'knn', 
+                                                                  'ada', 'omp', 'par', 'huber', 'dt', 'lr', 'br', 'rf', 'ridge', 'dummy'])
+                models.update({model: True for model in selected_models})
 
-        if st.button('Train Models'):
-            trained_models = train_models(X_train, y_train, models,model_type)
-            st.success('Models trained successfully!')
+            if model_type == 'Classification':
+                selected_models = st.selectbox("Select models", ['gbc', 'lightgbm', 'ada', 'xgboost', 'lda', 'et', 'gbc', 'ada', 'knn', 'lr', 'rf', 'ridge', 'dummy'])
+                models.update({model: True for model in selected_models})
 
-            # Evaluate models
-            scores = evaluate_models(X_test, y_test, trained_models)
-            st.subheader('Model Evaluation')
+            if st.button('Train Models'):
+                trained_models = train_models(X_train, y_train, model_type, models)
+                st.success('Models trained successfully!')
 
-            for model_name, score in scores.items():
-                st.write(f'{model_name}: {score}')
+                # Evaluate models
+                scores = evaluate_models(X_test, y_test, trained_models)
+                st.subheader('Model Evaluation')
 
+                for model_name, score in scores.items():
+                    st.write(f'{model_name}: {score}')
 if __name__ == '__main__':
     main()
