@@ -18,9 +18,9 @@ def load_data(file):
 #s = setup(data, target=target_variable, session_id=123)
 
 
-def generate_eda(X, target_variable):
-    s = setup(data, target=target_variable, session_id=123)   
-    # generate EDA
+def generate_eda(data, target_variable):
+    df = pd.concat([data, target_variable], axis=1)
+    s = setup(data=df, target=target_variable.name, session_id=123)
     eda_output = eda()
     return eda_output
 
@@ -98,7 +98,7 @@ def main():
             if X.empty:
                 st.error('The feature data is empty.')
                 return
-            eda_output = generate_eda(X, target_variable)
+            eda_output = generate_eda(data, target_variable)
             st.write(eda_output[0])
 
             # Split data into training and testing sets
