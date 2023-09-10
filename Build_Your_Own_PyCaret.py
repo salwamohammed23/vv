@@ -34,7 +34,7 @@ def train_models(X_train, y_train, model_type, selected_models):
         clf = setup(data=X_train, target=y_train)
 
         for model_name in selected_models:
-            model = create_model(model_name, fold=5)
+            model = create_model(model_name)
             trained_model = finalize_model(model)
             trained_models[model_name] = trained_model
 
