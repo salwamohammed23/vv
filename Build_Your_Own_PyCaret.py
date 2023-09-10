@@ -36,20 +36,18 @@ def train_models(X_train, y_train, model_type, selected_models):
         clf = setup(data=X_train, target=y_train)
         
         for model_name in selected_models:
-            model = create_classification_model(model_name, fold=5)
+            model = create_model(model_name, fold=5)
             trained_model = finalize_model(model)
             trained_models[model_name] = trained_model
 
     else:
         reg = setup(data=X_train, target=y_train)
         for model_name in selected_models:
-            model = create_regression_model(model_name)
+            model = create_model(model_name)
             trained_model = finalize_model(model)
             trained_models[model_name] = trained_model
 
     return trained_models
-
-
 
 # Function to evaluate models
 def evaluate_models(X_test, y_test, trained_models):
@@ -57,10 +55,10 @@ def evaluate_models(X_test, y_test, trained_models):
 
     for model_name, model in trained_models.items():
         if 'Regression' in model_name:
-            y_pred = model.predict(X_test)
+            y_pred = predict_model(model, data=X_test)
             score = mean_squared_error(y_test, y_pred)
         else:
-            y_pred = model.predict(X_test)
+            y_pred = predict_model(model, data=X_test)
             score = accuracy_score(y_test, y_pred)
 
         scores[model_name] = score
