@@ -8,9 +8,8 @@ from sklearn.model_selection import train_test_split
 from pycaret.datasets import get_data
 from sklearn.metrics import mean_squared_error, accuracy_score
 from pycaret.regression import compare_models, setup, create_model as create_regression_model, finalize_model
-from pycaret.classification import compare_models as compare_class_models
-from pycaret.classification import setup, create_model as create_classification, finalize_model
-from pycaret.regression import setup, create_model, finalize_model
+from pycaret.classification import setup, create_model as create_classification_model, finalize_model
+
 
 # Function to load data
 def load_data(file):
