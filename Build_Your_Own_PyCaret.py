@@ -98,6 +98,9 @@ def main():
             if X.empty:
                 st.error('The feature data is empty.')
                 return
+            else:
+                profile_report = df.profile_report()
+                st_profile_report(profile_report)
             #eda_output = generate_eda(data, target_variable)
             #st.write(eda_output[0])
 
