@@ -1,7 +1,4 @@
-autoviz
-
 matplotlib.pyplot 
-
 scikit-learn
 scikit-learn-intelex
 pandas
