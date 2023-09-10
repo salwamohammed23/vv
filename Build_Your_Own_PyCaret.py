@@ -124,7 +124,7 @@ def main():
 
         if model_type == 'Classification':
             selected_models = st.selectbox("Select models", ['gbc', 'lightgbm', 'ada', 'xgboost', 'lda', 'et', 'gbc', 'ada', 'knn', 'lr', 'rf', 'ridge', 'dummy'])
-             models.update({model: True for model in selected_models})
+            models.update({model: True for model in selected_models})
 
         if st.button('Train Models'):
             trained_models = train_models(X_train, y_train, model_type, models)
