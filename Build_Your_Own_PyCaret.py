@@ -104,37 +104,37 @@ def main():
             #eda_output = generate_eda(data, target_variable)
             #st.write(eda_output[0])
 
-            # Split data into training and testing sets
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        # Split data into training and testing sets
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-            # Check if training data is empty
-            if X_train.empty or y_train.empty:
-                st.error('The training data is empty.')
-                return
+        # Check if training data is empty
+        if X_train.empty or y_train.empty:
+            st.error('The training data is empty.')
+            return
 
             # Select models
-            models = {}
+        models = {}
 
-            model_type = st.radio("Select the model type", ("Regression", "Classification"))
+        model_type = st.radio("Select the model type", ("Regression", "Classification"))
 
-            if model_type == 'Regression':
-                selected_models = st.selectbox("Select models", ['gbr', 'lightgbm', 'xgboost', 'lar', 'llar', 'et', 'en', 'lasso', 'knn', 
+        if model_type == 'Regression':
+            selected_models = st.selectbox("Select models", ['gbr', 'lightgbm', 'xgboost', 'lar', 'llar', 'et', 'en', 'lasso', 'knn', 
                                                                   'ada', 'omp', 'par', 'huber', 'dt', 'lr', 'br', 'rf', 'ridge', 'dummy'])
-                models.update({model: True for model in selected_models})
+            models.update({model: True for model in selected_models})
 
-            if model_type == 'Classification':
-                selected_models = st.selectbox("Select models", ['gbc', 'lightgbm', 'ada', 'xgboost', 'lda', 'et', 'gbc', 'ada', 'knn', 'lr', 'rf', 'ridge', 'dummy'])
-                models.update({model: True for model in selected_models})
+        if model_type == 'Classification':
+            selected_models = st.selectbox("Select models", ['gbc', 'lightgbm', 'ada', 'xgboost', 'lda', 'et', 'gbc', 'ada', 'knn', 'lr', 'rf', 'ridge', 'dummy'])
+             models.update({model: True for model in selected_models})
 
-            if st.button('Train Models'):
-                trained_models = train_models(X_train, y_train, model_type, models)
-                st.success('Models trained successfully!')
+        if st.button('Train Models'):
+            trained_models = train_models(X_train, y_train, model_type, models)
+            st.success('Models trained successfully!')
 
-                # Evaluate models
-                scores = evaluate_models(X_test, y_test, trained_models)
-                st.subheader('Model Evaluation')
+            # Evaluate models
+            scores = evaluate_models(X_test, y_test, trained_models)
+            st.subheader('Model Evaluation')
 
-                for model_name, score in scores.items():
-                    st.write(f'{model_name}: {score}')
+            for model_name, score in scores.items():
+                st.write(f'{model_name}: {score}')
 if __name__ == '__main__':
     main()
