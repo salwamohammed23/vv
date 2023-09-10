@@ -134,7 +134,7 @@ def main():
 
         if st.button('Train Models'):
             trained_models = train_models(X_train, y_train, model_type, models)
-            st.success('Models trained successfully!')
+        
 
             # Evaluate models
             scores = evaluate_models(X_test, y_test, trained_models)
