@@ -76,7 +76,7 @@ def main():
 
         # Display EDA
         st.subheader('Exploratory Data Analysis')
-        if st.button('Generate EDA'):
+        if st.sidebar.button('Generate EDA'):
             if X.empty:
                 st.error('The feature data is empty.')
                 return
@@ -106,7 +106,7 @@ def main():
                 selected_models = st.multiselect("Select models", ['gbc', 'lightgbm', 'ada', 'xgboost', 'lda', 'et', 'gbc', 'ada', 'knn', 'lr', 'rf', 'ridge', 'dummy'])
                 models.update({model: True for model in selected_models})
 
-            if st.button('Train Models'):
+            if st.sidebar.button('Train Models'):
                 trained_models =train_models(X_train, y_train, model_type, selected_models)
                 st.success('Models trained successfully!')
 
