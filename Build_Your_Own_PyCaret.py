@@ -39,15 +39,12 @@ def train_models(X_train, y_train, model_type, selected_models):
             trained_model = finalize_model(model)
             trained_models[model_name] = trained_model
 
-    elif model_type == 'Regression':
+    else:
         reg = setup(data=X_train, target=y_train)
         for model_name in selected_models:
             model = create_regression_model(model_name)
             trained_model = finalize_model(model)
             trained_models[model_name] = trained_model
-
-    else:
-        raise ValueError("Invalid model type. Supported types: 'Classification', 'Regression'")
 
     return trained_models
 
