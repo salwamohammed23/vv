@@ -1,6 +1,6 @@
 autoviz
-install pycaret[mlops]
-import matplotlib.pyplot as plt
+
+matplotlib.pyplot as plt
 %matplotlib inline
 scikit-learn
 scikit-learn-intelex
