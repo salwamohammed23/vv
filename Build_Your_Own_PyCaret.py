@@ -1,5 +1,7 @@
 import pandas as pd
 import streamlit as st
+import pandas_profiling as pf
+from streamlit_pandas_profiling import st_profile_report
 from pycaret.classification import *
 from pycaret.regression import *
 from sklearn.model_selection import train_test_split
