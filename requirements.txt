@@ -1,7 +1,7 @@
 autoviz
 
-matplotlib.pyplot as plt
-%matplotlib inline
+matplotlib.pyplot 
+
 scikit-learn
 scikit-learn-intelex
 pandas
