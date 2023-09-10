@@ -7,8 +7,7 @@ from pycaret.regression import *
 from sklearn.model_selection import train_test_split
 from pycaret.datasets import get_data
 from sklearn.metrics import mean_squared_error, accuracy_score
-from pycaret.regression import compare_models, setup, create_model as create_regression_model, finalize_model
-from pycaret.classification import setup, create_model as create_classification_model, finalize_model
+
 
 
 # Function to load data
@@ -35,14 +34,14 @@ def train_models(X_train, y_train, model_type, selected_models):
         clf = setup(data=X_train, target=y_train)
 
         for model_name in selected_models:
-            model = create_classification_model(model_name, fold=5)
+            model = create_model(model_name, fold=5)
             trained_model = finalize_model(model)
             trained_models[model_name] = trained_model
 
     else:
         reg = setup(data=X_train, target=y_train)
         for model_name in selected_models:
-            model = create_regression_model(model_name)
+            model = create_model(model_name)
             trained_model = finalize_model(model)
             trained_models[model_name] = trained_model
 
