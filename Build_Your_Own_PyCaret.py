@@ -45,7 +45,7 @@ def train_models(X_train, y_train, model_type, selected_models):
             #trained_model = finalize_model(model)
             #trained_models[model_name] = trained_model
 
-    return trained_models
+    return model
 
 # Function to evaluate models
 def evaluate_models(X_test, y_test, trained_models):
