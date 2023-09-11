@@ -33,15 +33,15 @@ def train_models(X_train, y_train, model_type, selected_models):
         # Set up the classification problem
         clf = setup(data=X_train, target=y_train)
 
-        for model_name in selected_models:
-            model = create_model(model_name)
+        #for model_name in selected_models:
+        model = create_model(selected_models)
             #trained_model = finalize_model(model)
             #trained_models[model_name] = trained_model
 
     else:
         reg = setup(data=X_train, target=y_train)
-        for model_name in selected_models:
-            model = create_model(model_name)
+        #for model_name in selected_models:
+        model = create_model(selected_models)
             #trained_model = finalize_model(model)
             #trained_models[model_name] = trained_model
 
@@ -116,7 +116,7 @@ def main():
         model_type = st.radio("Select the model type", ("Regression", "Classification"))
 
         if model_type == 'Regression':
-            selected_models = st.selectbox("Select models", ['Extra Trees Regressor', 'Extreme Gradient Boosting', 'Random Forest Regressor', 'Light Gradient Boosting Machine', 'Gradient Boosting Regressor', 'Decision Tree Regressor', 'Ridge Regression', 'Lasso Regression', 'Lasso Least Angle Regression', 
+            selected_models = st.radio("Select models", ['Extra Trees Regressor', 'Extreme Gradient Boosting', 'Random Forest Regressor', 'Light Gradient Boosting Machine', 'Gradient Boosting Regressor', 'Decision Tree Regressor', 'Ridge Regression', 'Lasso Regression', 'Lasso Least Angle Regression', 
                                                                   'Bayesian Ridge', 'Linear Regression', 'Huber Regressor', 'Passive Aggressive Regressor', 'Orthogonal Matching Pursuit', 'AdaBoost Regressor', '	K Neighbors Regressor', 'Elastic Net', 'Dummy Regressor', 'Least Angle Regression'])
             models.update({model: True for model in selected_models})
 
