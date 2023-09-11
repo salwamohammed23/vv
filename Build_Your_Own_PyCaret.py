@@ -116,8 +116,8 @@ def main():
         model_type = st.radio("Select the model type", ("Regression", "Classification"))
 
         if model_type == 'Regression':
-            selected_models = st.selectbox("Select models", st.selectbox("Select models", ['Extra Trees Regressor', 'Extreme Gradient Boosting', 'Random Forest Regressor', 'Light Gradient Boosting Machine', 'Gradient Boosting Regressor', 'Decision Tree Regressor', 'Ridge Regression', 'Lasso Regression', '	Lasso Least Angle Regression', 
-                                                                  'Bayesian Ridge', 'Linear Regression', 'Huber Regressor', 'Passive Aggressive Regressor', 'Orthogonal Matching Pursuit', 'AdaBoost Regressor', '	K Neighbors Regressor', '	Elastic Net', '	Dummy Regressor', '	Least Angle Regression']))
+            selected_models = st.selectbox("Select models", ['Extra Trees Regressor', 'Extreme Gradient Boosting', 'Random Forest Regressor', 'Light Gradient Boosting Machine', 'Gradient Boosting Regressor', 'Decision Tree Regressor', 'Ridge Regression', 'Lasso Regression', 'Lasso Least Angle Regression', 
+                                                                  'Bayesian Ridge', 'Linear Regression', 'Huber Regressor', 'Passive Aggressive Regressor', 'Orthogonal Matching Pursuit', 'AdaBoost Regressor', '	K Neighbors Regressor', 'Elastic Net', 'Dummy Regressor', 'Least Angle Regression'])
             models.update({model: True for model in selected_models})
 
         if model_type == 'Classification':
