@@ -6,6 +6,6 @@ pandas-profiling
 pycaret
 streamlit
 mlflow
-pycaret[full]
+
 pandas_profiling 
 streamlit_pandas_profiling
