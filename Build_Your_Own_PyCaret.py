@@ -25,8 +25,9 @@ def generate_eda(data, target_variable):
     eda_output = eda()
     return eda_output
 
-def train_validate_models(X_train, y_train, model_type, selected_models):
+def train_validate_models(X_train, y_train, X_test, y_test, model_type, selected_models):
     trained_models = {}
+    scores = []
 
     if model_type == 'Classification':
         try:
@@ -37,22 +38,24 @@ def train_validate_models(X_train, y_train, model_type, selected_models):
                 model = create_classification_model(model_name)
                 y_pred = predict_model(model, data=X_test)
                 score = mean_squared_error(y_test, y_pred)
+                scores.append(score)
 
         except Exception as e:
             print(f"An error occurred during classification model training: {str(e)}")
 
-    else :
+    else:
         try:
             reg = setup(data=X_train, target=y_train)
             for model_name in selected_models:
                 model = create_regression_model(model_name)
                 y_pred = predict_model(model, data=X_test)
                 score = accuracy_score(y_test, y_pred)
+                scores.append(score)
 
         except Exception as e:
             print(f"An error occurred during regression model training: {str(e)}")
 
-    return score
+    return scores
 
 def main():
     st.sidebar.title('Machine Learning Package')
