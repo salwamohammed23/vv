@@ -41,7 +41,7 @@ def train_validate_models(X_train, y_train, model_type, selected_models):
         except Exception as e:
             print(f"An error occurred during classification model training: {str(e)}")
 
-    elif model_type == 'Regression':
+    else model_type == 'Regression':
         try:
             reg = setup(data=X_train, target=y_train)
             for model_name in selected_models:
@@ -51,9 +51,6 @@ def train_validate_models(X_train, y_train, model_type, selected_models):
 
         except Exception as e:
             print(f"An error occurred during regression model training: {str(e)}")
-
-    else:
-        print("Invalid model_type specified.")
 
     return score
 
