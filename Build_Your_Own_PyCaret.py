@@ -54,7 +54,7 @@ def train_models(X_train, y_train, model_type, selected_models):
 def evaluate_models(X_train, y_train, model_type, selected_models):
     scores = {}
 
-    for model_name, model in model.items():
+    for for model_name in selected_models:
         if model_type =='Regression' :
             y_pred = predict_model(model, data=X_test)
             score = mean_squared_error(y_test, y_pred)
