@@ -25,46 +25,26 @@ def generate_eda(data, target_variable):
     eda_output = eda()
     return eda_output
 
-
-def train_models(X_train, y_train, model_type, selected_models):
+def train_valdiate_models(X_train, y_train, model_type, selected_models):
     trained_models = {}
 
     if model_type == 'Classification':
         try:
             # Set up the classification problem
-            clf = setup(data=X_train, target=y_train)
+            set = setup(data=X_train, target=y_train)
     
+            for model_name in selected_models1:
+                model = create_classification_model(model_name)
+                evaluate_classification_model(model)
+    
+    
+        elif model_type == 'Regression':
+            reg = setup(data=X_train, target=y_train)
             for model_name in selected_models:
-                model = create_model(model_name)
-                trained_model = finalize_model(model)
-                trained_models[model_name] = trained_model
-    
-            else:
-                reg = setup(data=X_train, target=y_train)
-                for model_name in selected_models:
-                    model = create_model(model_name)
-                    trained_model = finalize_model(model)
-                    trained_models[model_name] = trained_model
-        
-            return trained_models
-        except Exception as e:
-                print(f"An error occurred during classification or Reggretion model training: {str(e)}")
-
-# Function to evaluate models
-def evaluate_models(X_test, y_test, trained_models):
-    scores = {}
-
-    for model_name, model in trained_models.items():
-        if 'Regression' in model_name:
-            y_pred = predict_model(model, data=X_test)
-            score = mean_squared_error(y_test, y_pred)
-        else:
-            y_pred = predict_model(model, data=X_test)
-            score = accuracy_score(y_test, y_pred)
-
-        scores[model_name] = score
-
-    return scores
+                model = create_regression_model(model_name)
+                evaluate_regression_model(model)
+    except Exception as e:
+        print(f"An error occurred during classification or Reggretion model training: {str(e)}")
 
 def main():
     st.sidebar.title('Machine Learning Package')
@@ -128,12 +108,12 @@ def main():
             models.update({model: True for model in selected_models})
 
         if st.button('Train Models'):
-            trained_models = train_models(X_train, y_train, model_type, selected_models)
+            trained_models = train_valdiate_models(X_train, y_train, model_type, selected_models)
         
 
             # Evaluate models
-            scores = evaluate_models(X_test, y_test, models)
-            st.subheader('Model Evaluation')
+            #scores = evaluate_models(X_test, y_test, models)
+            #st.subheader('Model Evaluation')
 
             for model_name, score in scores.items():
                 st.write(f'{model_name}: {score}')
