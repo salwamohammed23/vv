@@ -25,25 +25,35 @@ def generate_eda(data, target_variable):
     eda_output = eda()
     return eda_output
 
-def train_valdiate_models(X_train, y_train, model_type, selected_models):
+def train_validate_models(X_train, y_train, model_type, selected_models):
     trained_models = {}
 
     if model_type == 'Classification':
         try:
             # Set up the classification problem
             set = setup(data=X_train, target=y_train)
-    
-            for model_name in selected_models1:
+
+            for model_name in selected_models:
                 model = create_classification_model(model_name)
-                evaluate_classification_model(model)
-    
-     else :
+                eval=evaluate_classification_model(model)
+
+        except Exception as e:
+            print(f"An error occurred during classification model training: {str(e)}")
+
+    elif model_type == 'Regression':
+        try:
             reg = setup(data=X_train, target=y_train)
             for model_name in selected_models:
                 model = create_regression_model(model_name)
-                evaluate_regression_model(model)
-    except Exception as e:
-        print(f"An error occurred during classification or Reggretion model training: {str(e)}")
+                eval=evaluate_regression_model(model)
+
+        except Exception as e:
+            print(f"An error occurred during regression model training: {str(e)}")
+
+    else:
+        print("Invalid model_type specified.")
+
+    return eval
 
 def main():
     st.sidebar.title('Machine Learning Package')
