@@ -56,7 +56,7 @@ def evaluate_models(X_test, y_test, models, model_type):
 
     for model_name, model in models.items():
         if model_type == 'Regression':
-            y_pred = predict_regression_model(model, data=X_test)
+            y_pred = predict_model(model, data=X_test)
             score = mean_squared_error(y_test, y_pred)
         else:
             y_pred = predict_model(model, data=X_test)
