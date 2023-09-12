@@ -35,7 +35,8 @@ def train_validate_models(X_train, y_train, model_type, selected_models):
 
             for model_name in selected_models:
                 model = create_classification_model(model_name)
-                eval=evaluate_classification_model(model)
+                y_pred = predict_model(model, data=X_test)
+                score = mean_squared_error(y_test, y_pred)
 
         except Exception as e:
             print(f"An error occurred during classification model training: {str(e)}")
@@ -45,7 +46,8 @@ def train_validate_models(X_train, y_train, model_type, selected_models):
             reg = setup(data=X_train, target=y_train)
             for model_name in selected_models:
                 model = create_regression_model(model_name)
-                eval=evaluate_regression_model(model)
+                y_pred = predict_model(model, data=X_test)
+                score = accuracy_score(y_test, y_pred)
 
         except Exception as e:
             print(f"An error occurred during regression model training: {str(e)}")
@@ -53,7 +55,7 @@ def train_validate_models(X_train, y_train, model_type, selected_models):
     else:
         print("Invalid model_type specified.")
 
-    return eval
+    return score
 
 def main():
     st.sidebar.title('Machine Learning Package')
