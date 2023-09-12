@@ -103,7 +103,7 @@ def main():
             models.update({model: True for model in selected_models})
 
         if model_type == 'Classification':
-            selected_models = st.multiselect("Select models", ['gbc', 'lightgbm', 'ada', 'xgboost', 'lda', 'et', 'gbc', 'ada', 'knn', 'lr', 'rf', 'ridge', 'dummy'])
+            selected_models = st.select("Select models", ['gbc', 'lightgbm', 'ada', 'xgboost', 'lda', 'et', 'gbc', 'ada', 'knn', 'lr', 'rf', 'ridge', 'dummy'])
             models.update({model: True for model in selected_models})
 
         if st.sidebar.button('Train Models'):
