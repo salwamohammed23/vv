@@ -36,30 +36,30 @@ def train_models(X_train, y_train, model_type, selected_models):
     
             for model_name in selected_models:
                 model = create_model(model_name)
-                #trained_model = finalize_model(model)
-                #trained_models[model_name] = trained_model
+                trained_model = finalize_model(model)
+                trained_models[model_name] = trained_model
     
             else:
                 reg = setup(data=X_train, target=y_train)
                 for model_name in selected_models:
                     model = create_model(model_name)
-                    #trained_model = finalize_model(model)
-                    #trained_models[model_name] = trained_model
+                    trained_model = finalize_model(model)
+                    trained_models[model_name] = trained_model
         
-            return model
+            return trained_models
         except Exception as e:
                 print(f"An error occurred during classification or Reggretion model training: {str(e)}")
 
 # Function to evaluate models
-def evaluate_models(X_test, y_test, models):
+def evaluate_models(X_test, y_test, trained_models):
     scores = {}
 
-    for model_name, model in models.items():
-        if 'Regressor' in model_name:
-            y_pred = model.predict(X_test)
+    for model_name, model in trained_models.items():
+        if 'Regression' in model_name:
+            y_pred = predict_model(model, data=X_test)
             score = mean_squared_error(y_test, y_pred)
         else:
-            y_pred = model.predict(X_test)
+            y_pred = predict_model(model, data=X_test)
             score = accuracy_score(y_test, y_pred)
 
         scores[model_name] = score
