@@ -30,22 +30,25 @@ def train_models(X_train, y_train, model_type, selected_models):
     trained_models = {}
 
     if model_type == 'Classification':
-        # Set up the classification problem
-        clf = setup(data=X_train, target=y_train)
-
-        for model_name in selected_models:
-            model = create_model(model_name)
-            #trained_model = finalize_model(model)
-            #trained_models[model_name] = trained_model
-
-    else:
-        reg = setup(data=X_train, target=y_train)
-        for model_name in selected_models:
-            model = create_model(model_name)
-            #trained_model = finalize_model(model)
-            #trained_models[model_name] = trained_model
-
-    return model
+        try:
+            # Set up the classification problem
+            clf = setup(data=X_train, target=y_train)
+    
+            for model_name in selected_models:
+                model = create_model(model_name)
+                #trained_model = finalize_model(model)
+                #trained_models[model_name] = trained_model
+    
+        else:
+            reg = setup(data=X_train, target=y_train)
+            for model_name in selected_models:
+                model = create_model(model_name)
+                #trained_model = finalize_model(model)
+                #trained_models[model_name] = trained_model
+    
+        return model
+    except Exception as e:
+            print(f"An error occurred during classification or Reggretion model training: {str(e)}")
 
 # Function to evaluate models
 def evaluate_models(X_test, y_test, trained_models):
