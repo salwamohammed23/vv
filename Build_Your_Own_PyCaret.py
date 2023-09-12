@@ -117,7 +117,7 @@ def main():
             models.update({model: True for model in selected_models})
 
         if st.button('Train Models'):
-            trained_models = train_valdiate_models(X_train, y_train, model_type, selected_models)
+            trained_models = train_validate_models(X_train, y_train, model_type, selected_models)
         
 
             # Evaluate models
