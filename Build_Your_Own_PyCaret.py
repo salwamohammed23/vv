@@ -132,7 +132,7 @@ def main():
         
 
             # Evaluate models
-            scores = evaluate_models(X_train, y_train, model_type, selected_models)
+            scores = evaluate_models(X_test, y_test, models, model_type)
             st.subheader('Model Evaluation')
 
             for model_name, score in scores.items():
