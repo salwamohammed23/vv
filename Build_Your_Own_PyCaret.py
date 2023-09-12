@@ -51,15 +51,15 @@ def train_models(X_train, y_train, model_type, selected_models):
                 print(f"An error occurred during classification or Reggretion model training: {str(e)}")
 
 # Function to evaluate models
-def evaluate_models(X_test, y_test, models, model_type):
+def evaluate_models(X_test, y_test, models):
     scores = {}
 
     for model_name, model in models.items():
-        if model_type == 'Regression':
-            y_pred = predict_model(model, data=X_test)
+        if 'Regressor' in model_name:
+            y_pred = model.predict(X_test)
             score = mean_squared_error(y_test, y_pred)
         else:
-            y_pred = predict_model(model, data=X_test)
+            y_pred = model.predict(X_test)
             score = accuracy_score(y_test, y_pred)
 
         scores[model_name] = score
@@ -132,7 +132,7 @@ def main():
         
 
             # Evaluate models
-            scores = evaluate_models(X_test, y_test, models, model_type)
+            scores = evaluate_models(X_test, y_test, models)
             st.subheader('Model Evaluation')
 
             for model_name, score in scores.items():
