@@ -38,7 +38,7 @@ def train_valdiate_models(X_train, y_train, model_type, selected_models):
                 evaluate_classification_model(model)
     
     
-        elif model_type == 'Regression':
+        else model_type == 'Regression':
             reg = setup(data=X_train, target=y_train)
             for model_name in selected_models:
                 model = create_regression_model(model_name)
