@@ -119,13 +119,11 @@ def main():
             models.update({model: True for model in selected_models})
 
         if st.button('Train Models'):
-            trained_models = train_validate_models(X_train, y_train, X_test, y_test, model_type, selected_models)
+            trained_models, scores = train_validate_models(X_train, y_train, X_test, y_test, model_type, selected_models)
         
-
             # Evaluate models
-            #scores = evaluate_models(X_test, y_test, models)
-            #st.subheader('Model Evaluation')
-
+            st.subheader('Model Evaluation')
+        
             for model_name, score in scores.items():
                 st.write(f'{model_name}: {score}')
 if __name__ == '__main__':
