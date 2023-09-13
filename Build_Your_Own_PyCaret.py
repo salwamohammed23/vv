@@ -98,7 +98,7 @@ def main():
     file = st.sidebar.file_uploader('Upload CSV', type='csv')
 
     if file is not None:
-        data = load_data(file)
+        data = wrangle(file)
         st.sidebar.success('Data successfully loaded!')
         st.write(data.head())
 
