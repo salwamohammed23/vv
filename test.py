@@ -94,7 +94,7 @@ def main():
     # Upload data
     st.sidebar.subheader('Data Loading')
     file = st.sidebar.file_uploader('Upload CSV', type='csv')
-
+    print(data.head()) 
     if file is not None:
         data = wrangle(file)
         # Select target variable
