@@ -101,9 +101,8 @@ def main():
         data = wrangle(file)  # Assuming you have a function named `wrangle` that processes the uploaded file
         # Select target variable
         target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
-        print(type(data))
-        st.write(data.head())
-
+        
+       
         # Select drop columns
         columns_to_drop = st.sidebar.multiselect('Select the columns to drop', data.columns)
         
