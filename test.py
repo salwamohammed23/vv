@@ -100,6 +100,7 @@ def main():
     if file is not None:
         data = wrangle(file)  # Assuming you have a function named `wrangle` that processes the uploaded file
                 
+        st.sidebar.success('Data successfully loaded!')
         st.write(data.head())
         # Select target variable
         target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
@@ -109,7 +110,7 @@ def main():
         columns_to_drop = st.sidebar.multiselect('Select the columns to drop', data.columns)
         
         if st.button('drop_columns'):
-            data.drop(columns=columns_to_drop, axis=1, inplace=True)
+            data=data.drop(columns=columns_to_drop, axis=1, inplace=True)
             st.write(data.columns)
         # Check if data is empty
 
