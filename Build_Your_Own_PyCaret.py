@@ -25,7 +25,7 @@ def generate_eda(data, target_variable):
     eda_output = eda()
     return eda_output
 
-def train_validate_models(X_train, y_train, X_test, y_test, model_type, selected_models,X_test, y_test,):
+def train_validate_models(X_train, y_train, X_test, y_test, model_type, selected_models):
     trained_models = {}
     scores = []
 
@@ -119,7 +119,7 @@ def main():
             models.update({model: True for model in selected_models})
 
         if st.button('Train Models'):
-            trained_models = train_validate_models(X_train, y_train, model_type, selected_models)
+            trained_models = train_validate_models(X_train, y_train, X_test, y_test, model_type, selected_models)
         
 
             # Evaluate models
