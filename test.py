@@ -9,7 +9,7 @@ from sklearn.model_selection import train_test_split
 from pycaret.datasets import get_data
 from sklearn.metrics import mean_squared_error, accuracy_score
 import streamlit as st
-st.set_option('deprecation.showPyplotGlobalUse', False
+#st.set_option('deprecation.showPyplotGlobalUse', False
 
 
 
@@ -53,7 +53,7 @@ def generate_histograms(df):
     for col in df.select_dtypes(include='number'):
         plt.figure()
         fig, ax = plt.subplots()
-        sns.histplot(df[col])
+        ax =sns.histplot(df[col])
         plt.title(f'Histogram of {col}')
         # ... Perform your plotting actions on the figure ...
         st.pyplot(fig)
@@ -63,7 +63,7 @@ def generate_box_plots(df):
     for col in df.select_dtypes(include='number'):
         plt.figure()
         fig, ax = plt.subplots()
-        sns.boxplot(data=df[col])
+        ax =sns.boxplot(data=df[col])
         plt.title(f'Box Plot of {col}')
         # After
          
@@ -79,7 +79,7 @@ def generate_scatter_plots(df):
             if i < j:
                 plt.figure()
                 fig, ax = plt.subplots()
-                sns.scatterplot(data=df, x=col1, y=col2)
+                ax = sns.scatterplot(data=df, x=col1, y=col2)
                 plt.title(f'Scatter Plot of {col1} vs {col2}')
                 # After
                  
