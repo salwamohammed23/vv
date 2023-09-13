@@ -1,7 +1,8 @@
 import pandas as pd
-import streamlit as st
-import seaborn as sns
 import matplotlib.pyplot as plt
+import streamlit as st
+st.set_option('deprecation.showPyplotGlobalUse', False
+import seaborn as sns
 import pandas_profiling as pf
 from streamlit_pandas_profiling import st_profile_report
 from pycaret.classification import *
@@ -51,17 +52,23 @@ def wrangle(filepath):
 def generate_histograms(df):
     for col in df.select_dtypes(include='number'):
         plt.figure()
+        fig, ax = plt.subplots()
         sns.histplot(df[col])
         plt.title(f'Histogram of {col}')
-        st.pyplot()
+        # ... Perform your plotting actions on the figure ...
+        st.pyplot(fig)
 
 # Function to generate box plots
 def generate_box_plots(df):
     for col in df.select_dtypes(include='number'):
         plt.figure()
+        fig, ax = plt.subplots()
         sns.boxplot(data=df[col])
         plt.title(f'Box Plot of {col}')
-        st.pyplot()
+        # After
+         
+        # ... Perform your plotting actions on the figure ...
+        st.pyplot(fig)
 
 # Function to generate scatter plots
 def generate_scatter_plots(df):
@@ -71,9 +78,13 @@ def generate_scatter_plots(df):
         for j, col2 in enumerate(numerical_cols):
             if i < j:
                 plt.figure()
+                fig, ax = plt.subplots()
                 sns.scatterplot(data=df, x=col1, y=col2)
                 plt.title(f'Scatter Plot of {col1} vs {col2}')
-                st.pyplot()
+                # After
+                 
+                # ... Perform your plotting actions on the figure ...
+                st.pyplot(fig)
 
 
 def train_validate_models(X_train, y_train, X_test, y_test, model_type, selected_models):
