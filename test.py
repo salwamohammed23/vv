@@ -97,16 +97,15 @@ def main():
 
     if file is not None:
         data = wrangle(file)
-        st.sidebar.success('Data successfully loaded!')
-        st.write(data.head())
-
         # Select target variable
         target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
 
-        # Select drop variable
+        # Select drop columns
         columns_to_drop = st.sidebar.multiselect('Select the columns to drop', data.columns)
         data=data.drop(columns=columns_to_drop, axis=1, inplace=True)
-
+        
+        if st.button('drop_columns'):
+            data=data.drop(columns=columns_to_drop, axis=1, inplace=True))
         st.write(data.head())
         # Check if data is empty
         if data.empty:
