@@ -103,8 +103,9 @@ def main():
         # Select target variable
         target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
 
-        # Select target variable
+        # Select drop variable
         columns_to_drop = st.sidebar.multiselect('Select the columns to drop', data.columns)
+        data=data.drop(columns=columns_to_drop, axis=1, inplace=True)
 
         st.write(data.head())
         # Check if data is empty
