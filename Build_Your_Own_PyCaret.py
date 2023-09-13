@@ -11,8 +11,41 @@ from sklearn.metrics import mean_squared_error, accuracy_score
 
 
 # Function to load data
-def load_data(file):
-    data = pd.read_csv(file)
+# Step 1: Data Cleaning
+#Data Quality: The data cleaning steps, such as handling missing values and removing duplicates,
+# ensure data quality and improve the reliability of the analysis. This indicates a concern for accurate and reliable insights.
+def wrangle(filepath):
+    # Read CSV file
+    data = pd.read_csv(filepath)
+    data=data[['name','latitude','neighbourhood','longitude','price','availability_365','room_type','minimum_nights','calculated_host_listings_count']]
+
+    null_sum = data.isnull().sum()
+
+    if null_sum.sum() > 0:
+        # Function to handle missing values
+        def handle_missing_values(df):
+            imputer = SimpleImputer(strategy='mean')  # Replace missing values with column mean
+            numeric_columns = data.select_dtypes(include='number').columns
+            data[numeric_columns] = imputer.fit_transform(data[numeric_columns])
+            return data
+
+        data = handle_missing_values(data)
+
+
+
+    duplicate_values = df.duplicated().sum()
+
+    if duplicate_values.sum() > 0:
+        # Function to handle missing values
+        def handle_duplicate_values(data):
+            # Remove duplicate rows
+            data.drop_duplicates(inplace=True)
+            return data
+
+        data = handle_duplicate_values(data)
+
+
+
     return data
     
 # Init setup
