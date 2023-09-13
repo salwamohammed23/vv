@@ -99,7 +99,7 @@ def main():
         data = wrangle(file)
         # Select target variable
         target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
-           print(data.columns) 
+        st.write(data.columns)
 
         # Select drop columns
         columns_to_drop = st.sidebar.multiselect('Select the columns to drop', data.columns)
