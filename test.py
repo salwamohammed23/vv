@@ -108,9 +108,6 @@ def main():
             data=data.drop(columns=columns_to_drop, axis=1, inplace=True)
             st.write(data.columns)
         # Check if data is empty
-        if data.empty:
-            st.error('The uploaded data is empty.')
-            return
 
         # Split data into features and target
         X = data.drop(target_variable, axis=1)
