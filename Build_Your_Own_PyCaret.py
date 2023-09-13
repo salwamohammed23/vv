@@ -24,39 +24,39 @@ def generate_eda(data, target_variable):
     s = setup(data=data, target=target_variable, session_id=123)
     eda_output = eda()
     return eda_output
-
 def train_validate_models(X_train, y_train, X_test, y_test, model_type, selected_models):
     trained_models = {}
-    scores = []
+    scores = {}
 
     if model_type == 'Classification':
         try:
-            # Set up the classification problem
-            set = setup(data=X_train, target=y_train)
-
+            clf = setup(data=X_train, target=y_train, silent=True)
             for model_name in selected_models:
-                model = create_classification_model(model_name)
-                y_pred = predict_model(model, data=X_test)
-                score = mean_squared_error(y_test, y_pred)
-                scores.append(score)
+                model = create_model(model_name)
+                trained_model = tune_model(model)
+                y_pred = predict_model(trained_model, data=X_test)
+                score = accuracy_score(y_test, y_pred)
+                scores[model_name] = score
+                trained_models[model_name] = trained_model
 
         except Exception as e:
             print(f"An error occurred during classification model training: {str(e)}")
 
     else:
         try:
-            reg = setup(data=X_train, target=y_train)
+            reg = setup(data=X_train, target=y_train, silent=True)
             for model_name in selected_models:
-                model = create_regression_model(model_name)
-                y_pred = predict_model(model, data=X_test)
-                score = accuracy_score(y_test, y_pred)
-                scores.append(score)
+                model = create_model(model_name)
+                trained_model = tune_model(model)
+                y_pred = predict_model(trained_model, data=X_test)
+                score = mean_squared_error(y_test, y_pred)
+                scores[model_name] = score
+                trained_models[model_name] = trained_model
 
         except Exception as e:
             print(f"An error occurred during regression model training: {str(e)}")
 
-    return scores
-
+    return trained_models, scores
 def main():
     st.sidebar.title('Machine Learning Package')
 
