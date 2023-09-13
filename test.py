@@ -89,7 +89,7 @@ def train_validate_models(X_train, y_train, X_test, y_test, model_type, selected
 
     return trained_models, scores
 def main():
-    def main():
+    
     st.sidebar.title('Machine Learning Package')
 
     # Upload data
