@@ -95,6 +95,7 @@ def main():
     # Upload data
     st.sidebar.subheader('Data Loading')
     file = st.sidebar.file_uploader('Upload CSV', type='csv')
+    st.write(data.head())
  
     if file is not None:
         data = wrangle(file)  # Assuming you have a function named `wrangle` that processes the uploaded file
