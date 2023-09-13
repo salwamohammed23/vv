@@ -1,5 +1,7 @@
 import pandas as pd
 import streamlit as st
+import seaborn as sns
+import matplotlib.pyplot as plt
 import pandas_profiling as pf
 from streamlit_pandas_profiling import st_profile_report
 from pycaret.classification import *
