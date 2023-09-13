@@ -25,7 +25,7 @@ def generate_eda(data, target_variable):
     eda_output = eda()
     return eda_output
 
-def train_validate_models(X_train, y_train, X_test, y_test, model_type, selected_models):
+def train_validate_models(X_train, y_train, X_test, y_test, model_type, selected_models,X_test, y_test,):
     trained_models = {}
     scores = []
 
