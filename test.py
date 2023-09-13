@@ -1,7 +1,5 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import streamlit as st
-st.set_option('deprecation.showPyplotGlobalUse', False
 import seaborn as sns
 import pandas_profiling as pf
 from streamlit_pandas_profiling import st_profile_report
@@ -10,6 +8,8 @@ from pycaret.regression import *
 from sklearn.model_selection import train_test_split
 from pycaret.datasets import get_data
 from sklearn.metrics import mean_squared_error, accuracy_score
+import streamlit as st
+st.set_option('deprecation.showPyplotGlobalUse', False
 
 
 
