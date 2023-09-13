@@ -46,15 +46,34 @@ def wrangle(filepath):
 
     return data
     
-# Init setup
-#s = setup(data, target=target_variable, session_id=123)
+def generate_histograms(df):
+    for col in df.select_dtypes(include='number'):
+        plt.figure()
+        sns.histplot(df[col])
+        plt.title(f'Histogram of {col}')
+        st.pyplot()
 
-@st.cache
-def generate_eda(data, target_variable):
+# Function to generate box plots
+def generate_box_plots(df):
+    for col in df.select_dtypes(include='number'):
+        plt.figure()
+        sns.boxplot(data=df[col])
+        plt.title(f'Box Plot of {col}')
+        st.pyplot()
 
-    s = setup(data=data, target=target_variable, session_id=123)
-    eda_output = eda()
-    return eda_output
+# Function to generate scatter plots
+def generate_scatter_plots(df):
+    numerical_cols = df.select_dtypes(include='number').columns
+
+    for i, col1 in enumerate(numerical_cols):
+        for j, col2 in enumerate(numerical_cols):
+            if i < j:
+                plt.figure()
+                sns.scatterplot(data=df, x=col1, y=col2)
+                plt.title(f'Scatter Plot of {col1} vs {col2}')
+                st.pyplot()
+
+
 def train_validate_models(X_train, y_train, X_test, y_test, model_type, selected_models):
     trained_models = {}
     scores = {}
@@ -129,8 +148,17 @@ def main():
                 st.error('The feature data is empty.')
                 return
             else:
-                profile_report = data.profile_report()
-                st_profile_report(profile_report)
+                # Generate histograms
+                st.header("Histograms")
+                generate_histograms(data)
+                
+                # Generate box plots
+                st.header("Box Plots")
+                generate_box_plots(data)
+                
+                # Generate scatter plots
+                st.header("Scatter Plots")
+                generate_scatter_plots(data)
             #eda_output = generate_eda(data, target_variable)
             #st.write(eda_output[0])
 
