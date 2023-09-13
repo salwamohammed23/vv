@@ -105,8 +105,8 @@ def main():
         data=data.drop(columns=columns_to_drop, axis=1, inplace=True)
         
         if st.button('drop_columns'):
-            data=data.drop(columns=columns_to_drop, axis=1, inplace=True))
-        st.write(data.head())
+            data=data.drop(columns=columns_to_drop, axis=1, inplace=True)
+        st.write(data.columns)
         # Check if data is empty
         if data.empty:
             st.error('The uploaded data is empty.')
