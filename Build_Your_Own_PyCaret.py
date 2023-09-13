@@ -17,8 +17,6 @@ from sklearn.metrics import mean_squared_error, accuracy_score
 def wrangle(filepath):
     # Read CSV file
     data = pd.read_csv(filepath)
-    data=data[['name','latitude','neighbourhood','longitude','price','availability_365','room_type','minimum_nights','calculated_host_listings_count']]
-
     null_sum = data.isnull().sum()
 
     if null_sum.sum() > 0:
