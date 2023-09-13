@@ -31,7 +31,7 @@ def wrangle(filepath):
 
 
 
-    duplicate_values = df.duplicated().sum()
+    duplicate_values = data.duplicated().sum()
 
     if duplicate_values.sum() > 0:
         # Function to handle missing values
