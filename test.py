@@ -157,10 +157,10 @@ def main():
         
        
         # Select drop columns
-        columns_to_drop = st.sidebar.multiselect('Select the columns to drop', data.columns)
+        columns_need = st.sidebar.multiselect('Select the columns which you need', data.columns)
         
-        if st.button('drop_columns'):
-            data=data.drop(columns=columns_to_drop, axis=1, inplace=True)
+        if st.button('Select_columns_need'):
+            data=df=df[columns_need]
             #st.write(data.head())
             st.write(data.columns)
         # Check if data is empty
