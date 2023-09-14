@@ -20,13 +20,14 @@ import streamlit as st
 def wrangle(filepath):
     # Function to load data from different formats
     def load_data(file_path):
+        
         #_, file_extension = file_path.rsplit('.', 1)
 
-        if file_path == 'csv':
+        if file_path == '.csv':
             return pd.read_csv(file_path)
-        elif file_path == 'xlsx':
+        elif file_path == '.xlsx':
             return pd.read_excel(file_path)
-        elif file_path == 'sql':
+        elif file_path == '.sql':
             # Code to load data from SQL database
             pass
         else:
