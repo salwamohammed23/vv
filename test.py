@@ -22,11 +22,11 @@ def wrangle(filepath):
     def load_data(file_path):
         #_, file_extension = file_path.rsplit('.', 1)
 
-        if file_extension == 'csv':
+        if file_path == 'csv':
             return pd.read_csv(file_path)
-        elif file_extension == 'xlsx':
+        elif file_path == 'xlsx':
             return pd.read_excel(file_path)
-        elif file_extension == 'sql':
+        elif file_path == 'sql':
             # Code to load data from SQL database
             pass
         else:
