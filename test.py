@@ -143,8 +143,8 @@ def main():
         
         if st.button('drop_columns'):
             data=data.drop(columns=columns_to_drop, axis=1, inplace=True)
-            st.write(data.head())
-            #st.write(data.columns)
+            #st.write(data.head())
+            st.write(data.columns)
         # Check if data is empty
 
         # Split data into features and target
