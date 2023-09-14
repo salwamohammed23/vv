@@ -17,23 +17,21 @@ import streamlit as st
 # Step 1: Data Cleaning
 #Data Quality: The data cleaning steps, such as handling missing values and removing duplicates,
 # ensure data quality and improve the reliability of the analysis. This indicates a concern for accurate and reliable insights.
-def wrangle(filepath):
+
+def wrangle(filepath, file_format):
     # Function to load data from different formats
-    def load_data(file_path):
-        
-        _, file_extension = file_path.rsplit('.', 1)
-    
-        if file_extension == 'csv':
+    def load_data(file_path, file_format):
+        if file_format == 'csv':
             return pd.read_csv(file_path)
-        elif file_extension == 'xlsx':
+        elif file_format == 'excel':
             return pd.read_excel(file_path)
-        else:
+        elif file_format == 'sql':
             # Code to load data from SQL database
+            #conn = sqlite3.connect('database.db')
             pass
-        else:
-            raise ValueError('Unsupported file format.')
+
     # Load data using the load_data function
-    data = load_data(filepath)
+    data = load_data(filepath, file_format)
 
     null_sum = data.isnull().sum()
 
@@ -49,7 +47,7 @@ def wrangle(filepath):
 
     duplicate_values = data.duplicated().sum()
 
-    if duplicate_values.sum() > 0:
+    if duplicate_values > 0:
         # Function to handle duplicate values
         def handle_duplicate_values(df):
             # Remove duplicate rows
@@ -136,14 +134,22 @@ def main():
     st.sidebar.title('Machine Learning Package')
 
     # Upload data
-    st.sidebar.subheader('Data Loading')
-    file = st.sidebar.file_uploader('Upload File', type=['csv', 'xlsx', 'sql'])
-    if file is not None:
-        # Save file locally
-        with open('uploaded_file', 'wb') as f:
-            f.write(file.read())
+     st.sidebar.title("File Selection")
+
+    # File format selection
+    file_format = st.sidebar.selectbox("Select File Format", ['csv', 'excel'])
+
+    # File upload
+    uploaded_file = st.sidebar.file_uploader("Upload File", type=[file_format])
+
+    if uploaded_file is not None:
+        try:
+            dataset = load_data(uploaded_file, file_format)
+            st.dataframe(dataset)  # Display loaded dataset
+        except Exception as e:
+            st.error(f"Error: {str(e)}")
         # Call the wrangle function with the file path
-        data = wrangle('uploaded_file')
+        data = wrangle(filepath, file_format)
         st.sidebar.success('Data successfully loaded!')
         st.write(data.head())
         # Select target variable
