@@ -141,16 +141,15 @@ def main():
     file_format = st.sidebar.selectbox("Select File Format", ['csv', 'excel'])
 
     # File upload
-    uploaded_file = st.sidebar.file_uploader("Upload File", type=[file_format])
+    filepath = st.sidebar.file_uploader("Upload File", type=[file_format])
 
-    if uploaded_file is not None:
+    if filepath is not None:
         try:
-            dataset = load_data(uploaded_file, file_format)
-            st.dataframe(dataset)  # Display loaded dataset
+            data = wrangle(filepath, file_format)
+            st.dataframe(data)  # Display loaded dataset
         except Exception as e:
             st.error(f"Error: {str(e)}")
-        # Call the wrangle function with the file path
-        data = wrangle(filepath, file_format)
+
         st.sidebar.success('Data successfully loaded!')
         st.write(data.head())
         # Select target variable
