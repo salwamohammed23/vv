@@ -146,7 +146,7 @@ def main():
     if filepath is not None:
         try:
             data = wrangle(filepath, file_format)
-            st.dataframe(data)  # Display loaded dataset
+            #st.dataframe(data)  # Display loaded dataset
         except Exception as e:
             st.error(f"Error: {str(e)}")
 
@@ -160,7 +160,7 @@ def main():
         columns_need = st.sidebar.multiselect('Select the columns which you need', data.columns)
         
         if st.button('Select_columns_need'):
-            data=df=df[columns_need]
+            data=data[[columns_need]]
             #st.write(data.head())
             st.write(data.columns)
         # Check if data is empty
