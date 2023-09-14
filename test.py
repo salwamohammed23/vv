@@ -12,7 +12,7 @@ from sklearn.metrics import mean_squared_error, accuracy_score
 import streamlit as st
 #st.set_option('deprecation.showPyplotGlobalUse', False
 
-
+###############################################################################################################
 
 # Function to load data
 # Step 1: Data Cleaning
@@ -58,7 +58,7 @@ def wrangle(filepath, file_format):
         data = handle_duplicate_values(data)
 
     return data
-    
+   ############################################################################################### 
 def generate_histograms(df):
     for col in df.select_dtypes(include='number'):
         plt.figure()
@@ -96,7 +96,7 @@ def generate_scatter_plots(df):
                 # ... Perform your plotting actions on the figure ...
                 st.pyplot(fig)
                 
-
+##############################################################################################################
 
 def train_validate_models(X_train, y_train, X_test, y_test, model_type, selected_models):
     trained_models = {}
@@ -131,6 +131,7 @@ def train_validate_models(X_train, y_train, X_test, y_test, model_type, selected
             print(f"An error occurred during regression model training: {str(e)}")
 
     return trained_models, scores
+    ############################################################################################
 def main():
     
     st.sidebar.title('Machine Learning Package')
@@ -156,8 +157,8 @@ def main():
         # Select target variable
         target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
         
-       
-        # Select drop columns
+###############################################################################################       
+        # Select columns_need
         columns_need = st.sidebar.multiselect('Select the columns which you need', data.columns)
         
         if st.button('Select_columns_need'):
@@ -165,7 +166,7 @@ def main():
             #st.write(data.head())
             st.write(data.columns)
         # Check if data is empty
-
+###################################################################################
         # Split data into features and target
         X = data.drop(target_variable, axis=1)
         y = data[target_variable]
@@ -193,13 +194,19 @@ def main():
                 generate_scatter_plots(data)
             #eda_output = generate_eda(data, target_variable)
             #st.write(eda_output[0])
-
+#############################################################################################
                 # Display Statistical
                # Generate summary statistics
         st.subheader('Summary Statistics')
         if st.button('Generate Summary Statistics'):
             summary_stats = data.describe()
             st.write(summary_stats)
+                    # Calculate mode
+            st.subheader('Mode')
+            #if st.button('Calculate Mode'):
+            mode = data.mode().iloc[0]
+            st.write(mode)
+            ###############################################################################3
         # Split data into training and testing sets
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
