@@ -135,7 +135,7 @@ def main():
     st.sidebar.title('Machine Learning Package')
 
     # Upload data
-     st.sidebar.subheader("File Selection")
+    st.sidebar.subheader("File Selection")
 
     # File format selection
     file_format = st.sidebar.selectbox("Select File Format", ['csv', 'excel'])
