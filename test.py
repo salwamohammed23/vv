@@ -95,6 +95,7 @@ def generate_scatter_plots(df):
                  
                 # ... Perform your plotting actions on the figure ...
                 st.pyplot(fig)
+                
 
 
 def train_validate_models(X_train, y_train, X_test, y_test, model_type, selected_models):
@@ -193,6 +194,12 @@ def main():
             #eda_output = generate_eda(data, target_variable)
             #st.write(eda_output[0])
 
+                # Display Statistical
+               # Generate summary statistics
+        st.subheader('Summary Statistics')
+        if st.button('Generate Summary Statistics'):
+            summary_stats = data.describe()
+            st.write(summary_stats)
         # Split data into training and testing sets
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
