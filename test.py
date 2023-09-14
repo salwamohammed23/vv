@@ -170,7 +170,7 @@ def main():
         # Split data into features and target
         X = data.drop(target_variable, axis=1)
         y = data[target_variable]
-
+###########################################################################################
         # Display a title
         st.title('Perform EDA')
 
