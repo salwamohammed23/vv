@@ -20,19 +20,20 @@ import streamlit as st
 def wrangle(filepath):
     # Function to load data from different formats
     def load_data(file_path):
-        
+        if '.' not in file_path:
+            raise ValueError('Invalid file path. File extension is missing.')
+    
         _, file_extension = file_path.rsplit('.', 1)
-
-        if file_extension == '.csv':
+    
+        if file_extension == 'csv':
             return pd.read_csv(file_path)
-        elif file_extension == '.xlsx':
+        elif file_extension == 'xlsx':
             return pd.read_excel(file_path)
-        elif file_extension == '.sql':
+        elif file_extension == 'sql':
             # Code to load data from SQL database
             pass
         else:
             raise ValueError('Unsupported file format.')
-
     # Load data using the load_data function
     data = load_data(filepath)
 
