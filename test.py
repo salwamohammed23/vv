@@ -18,34 +18,45 @@ import streamlit as st
 #Data Quality: The data cleaning steps, such as handling missing values and removing duplicates,
 # ensure data quality and improve the reliability of the analysis. This indicates a concern for accurate and reliable insights.
 def wrangle(filepath):
-    # Read CSV file
-    data = pd.read_csv(filepath)
+    # Function to load data from different formats
+    def load_data(file_path):
+        _, file_extension = file_path.rsplit('.', 1)
+
+        if file_extension == 'csv':
+            return pd.read_csv(file_path)
+        elif file_extension == 'xlsx':
+            return pd.read_excel(file_path)
+        elif file_extension == 'sql':
+            # Code to load data from SQL database
+            pass
+        else:
+            raise ValueError('Unsupported file format.')
+
+    # Load data using the load_data function
+    data = load_data(filepath)
+
     null_sum = data.isnull().sum()
 
     if null_sum.sum() > 0:
         # Function to handle missing values
         def handle_missing_values(df):
             imputer = SimpleImputer(strategy='mean')  # Replace missing values with column mean
-            numeric_columns = data.select_dtypes(include='number').columns
-            data[numeric_columns] = imputer.fit_transform(data[numeric_columns])
-            return data
+            numeric_columns = df.select_dtypes(include='number').columns
+            df[numeric_columns] = imputer.fit_transform(df[numeric_columns])
+            return df
 
         data = handle_missing_values(data)
-
-
 
     duplicate_values = data.duplicated().sum()
 
     if duplicate_values.sum() > 0:
-        # Function to handle missing values
-        def handle_duplicate_values(data):
+        # Function to handle duplicate values
+        def handle_duplicate_values(df):
             # Remove duplicate rows
-            data.drop_duplicates(inplace=True)
-            return data
+            df.drop_duplicates(inplace=True)
+            return df
 
         data = handle_duplicate_values(data)
-
-
 
     return data
     
@@ -126,12 +137,13 @@ def main():
 
     # Upload data
     st.sidebar.subheader('Data Loading')
-    file = st.sidebar.file_uploader('Upload CSV', type='csv')
-   
- 
+    file = st.sidebar.file_uploader('Upload File', type=['csv', 'xlsx', 'sql'])
     if file is not None:
-        data = wrangle(file)  # Assuming you have a function named `wrangle` that processes the uploaded file
-                
+        # Save file locally
+        with open('uploaded_file', 'wb') as f:
+            f.write(file.read())
+        # Call the wrangle function with the file path
+        data = wrangle('uploaded_file')
         st.sidebar.success('Data successfully loaded!')
         st.write(data.head())
         # Select target variable
