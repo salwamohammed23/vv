@@ -160,7 +160,7 @@ def main():
         columns_need = st.sidebar.multiselect('Select the columns which you need', data.columns)
         
         if st.button('Select_columns_need'):
-            data=data[[columns_need]]
+            data=data[columns_need]
             #st.write(data.head())
             st.write(data.columns)
         # Check if data is empty
