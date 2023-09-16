@@ -1,60 +1,103 @@
 import pandas as pd
-import streamlit as st
+import matplotlib.pyplot as plt
+import seaborn as sns
 import pandas_profiling as pf
 from streamlit_pandas_profiling import st_profile_report
 from pycaret.classification import *
 from pycaret.regression import *
+from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split
 from pycaret.datasets import get_data
 from sklearn.metrics import mean_squared_error, accuracy_score
+import streamlit as st
+#st.set_option('deprecation.showPyplotGlobalUse', False
 
-
+###############################################################################################################
 
 # Function to load data
 # Step 1: Data Cleaning
 #Data Quality: The data cleaning steps, such as handling missing values and removing duplicates,
 # ensure data quality and improve the reliability of the analysis. This indicates a concern for accurate and reliable insights.
-def wrangle(filepath):
-    # Read CSV file
-    data = pd.read_csv(filepath)
+
+def wrangle(filepath, file_format):
+    # Function to load data from different formats
+    def load_data(file_path, file_format):
+        if file_format == 'csv':
+            return pd.read_csv(file_path)
+        elif file_format == 'excel':
+            return pd.read_excel(file_path)
+        elif file_format == 'sql':
+            # Code to load data from SQL database
+            #conn = sqlite3.connect('database.db')
+            pass
+
+    # Load data using the load_data function
+    data = load_data(filepath, file_format)
+
     null_sum = data.isnull().sum()
 
     if null_sum.sum() > 0:
         # Function to handle missing values
         def handle_missing_values(df):
             imputer = SimpleImputer(strategy='mean')  # Replace missing values with column mean
-            numeric_columns = data.select_dtypes(include='number').columns
-            data[numeric_columns] = imputer.fit_transform(data[numeric_columns])
-            return data
+            numeric_columns = df.select_dtypes(include='number').columns
+            df[numeric_columns] = imputer.fit_transform(df[numeric_columns])
+            return df
 
         data = handle_missing_values(data)
 
-
-
     duplicate_values = data.duplicated().sum()
 
-    if duplicate_values.sum() > 0:
-        # Function to handle missing values
-        def handle_duplicate_values(data):
+    if duplicate_values > 0:
+        # Function to handle duplicate values
+        def handle_duplicate_values(df):
             # Remove duplicate rows
-            data.drop_duplicates(inplace=True)
-            return data
+            df.drop_duplicates(inplace=True)
+            return df
 
         data = handle_duplicate_values(data)
 
-
-
     return data
-    
-# Init setup
-#s = setup(data, target=target_variable, session_id=123)
+   ############################################################################################### 
+def generate_histograms(df):
+    for col in df.select_dtypes(include='number'):
+        plt.figure()
+        fig, ax = plt.subplots()
+        ax =sns.histplot(df[col])
+        plt.title(f'Histogram of {col}')
+        # ... Perform your plotting actions on the figure ...
+        st.pyplot(fig)
 
-@st.cache
-def generate_eda(data, target_variable):
+# Function to generate box plots
+def generate_box_plots(df):
+    for col in df.select_dtypes(include='number'):
+        plt.figure()
+        fig, ax = plt.subplots()
+        ax =sns.boxplot(data=df[col])
+        plt.title(f'Box Plot of {col}')
+        # After
+         
+        # ... Perform your plotting actions on the figure ...
+        st.pyplot(fig)
 
-    s = setup(data=data, target=target_variable, session_id=123)
-    eda_output = eda()
-    return eda_output
+# Function to generate scatter plots
+def generate_scatter_plots(df):
+    numerical_cols = df.select_dtypes(include='number').columns
+
+    for i, col1 in enumerate(numerical_cols):
+        for j, col2 in enumerate(numerical_cols):
+            if i < j:
+                plt.figure()
+                fig, ax = plt.subplots()
+                ax = sns.scatterplot(data=df, x=col1, y=col2)
+                plt.title(f'Scatter Plot of {col1} vs {col2}')
+                # After
+                 
+                # ... Perform your plotting actions on the figure ...
+                st.pyplot(fig)
+                
+##############################################################################################################
+
 def train_validate_models(X_train, y_train, X_test, y_test, model_type, selected_models):
     trained_models = {}
     scores = {}
@@ -88,30 +131,46 @@ def train_validate_models(X_train, y_train, X_test, y_test, model_type, selected
             print(f"An error occurred during regression model training: {str(e)}")
 
     return trained_models, scores
+    ############################################################################################
 def main():
+    
     st.sidebar.title('Machine Learning Package')
 
     # Upload data
-    st.sidebar.subheader('Data Loading')
-    file = st.sidebar.file_uploader('Upload CSV', type='csv')
+    st.sidebar.subheader("File Selection")
 
-    if file is not None:
-        data = wrangle(file)
+    # File format selection
+    file_format = st.sidebar.selectbox("Select File Format", ['csv', 'excel'])
+
+    # File upload
+    filepath = st.sidebar.file_uploader("Upload File", type=[file_format])
+
+    if filepath is not None:
+        try:
+            data = wrangle(filepath, file_format)
+            #st.dataframe(data)  # Display loaded dataset
+        except Exception as e:
+            st.error(f"Error: {str(e)}")
+
         st.sidebar.success('Data successfully loaded!')
         st.write(data.head())
-
         # Select target variable
         target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
-
+        
+###############################################################################################       
+        # Select columns_need
+        columns_need = st.sidebar.multiselect('Select the columns which you need', data.columns)
+        
+        if st.button('Select_columns_need'):
+            data=data[columns_need]
+            #st.write(data.head())
+            st.write(data.columns)
         # Check if data is empty
-        if data.empty:
-            st.error('The uploaded data is empty.')
-            return
-
+###################################################################################
         # Split data into features and target
         X = data.drop(target_variable, axis=1)
         y = data[target_variable]
-
+###########################################################################################
         # Display a title
         st.title('Perform EDA')
 
@@ -122,11 +181,32 @@ def main():
                 st.error('The feature data is empty.')
                 return
             else:
-                profile_report = data.profile_report()
-                st_profile_report(profile_report)
+                # Generate histograms
+                st.header("Histograms")
+                generate_histograms(data)
+                
+                # Generate box plots
+                st.header("Box Plots")
+                generate_box_plots(data)
+                
+                # Generate scatter plots
+                st.header("Scatter Plots")
+                generate_scatter_plots(data)
             #eda_output = generate_eda(data, target_variable)
             #st.write(eda_output[0])
-
+#############################################################################################
+                # Display Statistical
+               # Generate summary statistics
+        st.subheader('Summary Statistics')
+        if st.button('Generate Summary Statistics'):
+            summary_stats = data.describe()
+            st.write(summary_stats)
+                    # Calculate mode
+            st.subheader('Mode')
+            #if st.button('Calculate Mode'):
+            mode = data.mode().iloc[0]
+            st.write(mode)
+            ###############################################################################3
         # Split data into training and testing sets
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
