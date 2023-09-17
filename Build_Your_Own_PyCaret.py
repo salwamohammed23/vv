@@ -9,6 +9,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split
 from pycaret.datasets import get_data
 from sklearn.metrics import mean_squared_error, accuracy_score
+from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 import streamlit as st
 #st.set_option('deprecation.showPyplotGlobalUse', False
 
@@ -34,17 +35,7 @@ def wrangle(filepath, file_format):
     # Load data using the load_data function
     data = load_data(filepath, file_format)
 
-    null_sum = data.isnull().sum()
 
-    if null_sum.sum() > 0:
-        # Function to handle missing values
-        def handle_missing_values(df):
-            imputer = SimpleImputer(strategy='mean')  # Replace missing values with column mean
-            numeric_columns = df.select_dtypes(include='number').columns
-            df[numeric_columns] = imputer.fit_transform(df[numeric_columns])
-            return df
-
-        data = handle_missing_values(data)
 
     duplicate_values = data.duplicated().sum()
 
@@ -59,6 +50,41 @@ def wrangle(filepath, file_format):
 
     return data
    ############################################################################################### 
+from sklearn.preprocessing import MinMaxScaler, LabelEncoder
+
+def handle_Normalize_missing_values(data):
+    continuous_features = []
+    categorical_features = []
+
+    # Identify the type of each feature in the data
+    for column in data.columns:
+        if data[column].dtype == 'object' or data[column].nunique() <= 10:
+            categorical_features.append(column)
+        else:
+            continuous_features.append(column)
+
+    # Fill missing values in categorical features with the mode
+    for feature in categorical_features:
+        data[feature].fillna(data[feature].mode()[0], inplace=True)
+
+    # Fill missing values in continuous features with the mean
+    for feature in continuous_features:
+        data[feature].fillna(data[feature].mean(), inplace=True)
+
+    # Normalize continuous features
+    scaler = MinMaxScaler()
+    data[continuous_features] = scaler.fit_transform(data[continuous_features])
+
+    # Encode categorical features
+    encoder = LabelEncoder()
+    for feature in categorical_features:
+        data[feature] = encoder.fit_transform(data[feature])
+
+    return data
+    ########################################################################################
+
+
+
 def generate_histograms(df):
     for col in df.select_dtypes(include='number'):
         plt.figure()
@@ -98,39 +124,39 @@ def generate_scatter_plots(df):
                 
 ##############################################################################################################
 
-def train_validate_models(X_train, y_train, X_test, y_test, model_type, selected_models):
+from pycaret.classification import ClassificationExperiment
+from pycaret.regression import RegressionExperiment
+
+def train_validate_models(X_train, y_train, X_test, y_test, model_type):
     trained_models = {}
     scores = {}
 
     if model_type == 'Classification':
         try:
-            clf = setup(data=X_train, target=y_train, silent=True)
-            for model_name in selected_models:
-                model = create_model(model_name)
-                trained_model = tune_model(model)
-                y_pred = predict_model(trained_model, data=X_test)
-                score = accuracy_score(y_test, y_pred)
-                scores[model_name] = score
-                trained_models[model_name] = trained_model
+            setup(data=X_train, target=y_train)
+            exp = ClassificationExperiment()
+            exp.setup(data=X_train, target=y_train)  # Replace 'target_column_name' with the actual name of your target column
+            best=exp.compare_models()
+            eval=evaluate_model(best)
 
         except Exception as e:
             print(f"An error occurred during classification model training: {str(e)}")
 
-    else:
+    elif model_type == 'Regression':
         try:
-            reg = setup(data=X_train, target=y_train, silent=True)
-            for model_name in selected_models:
-                model = create_model(model_name)
-                trained_model = tune_model(model)
-                y_pred = predict_model(trained_model, data=X_test)
-                score = mean_squared_error(y_test, y_pred)
-                scores[model_name] = score
-                trained_models[model_name] = trained_model
+            setup(data=X_train, target=y_train)
+            exp = RegressionExperiment()
+            exp.setup(data=X_train, target=y_train)  # Replace 'target_column_name' with the actual name of your target column
+            best=exp.compare_models()
+            eval=evaluate_model(best)
 
         except Exception as e:
             print(f"An error occurred during regression model training: {str(e)}")
 
-    return trained_models, scores
+    else:
+        print("Invalid model type. Please choose either 'Classification' or 'Regression'.")
+
+    return eval, best
     ############################################################################################
 def main():
     
@@ -148,6 +174,7 @@ def main():
     if filepath is not None:
         try:
             data = wrangle(filepath, file_format)
+            data= handle_Normalize_missing_values(data)
             #st.dataframe(data)  # Display loaded dataset
         except Exception as e:
             st.error(f"Error: {str(e)}")
@@ -221,21 +248,10 @@ def main():
         model_type = st.radio("Select the model type", ("Regression", "Classification"))
 
         if model_type == 'Regression':
-            selected_models =  st.multiselect("Select models",["Extra Trees Regressor", 'Extreme Gradient Boosting', 'Random Forest Regressor', 'Light Gradient Boosting Machine', 'Gradient Boosting Regressor', 'Decision Tree Regressor', 'Ridge Regression', 'Lasso Regression', 'Lasso Least Angle Regression', 
-                                                                  'Bayesian Ridge', 'Linear Regression', 'Huber Regressor', 'Passive Aggressive Regressor', 'Orthogonal Matching Pursuit', 'AdaBoost Regressor', '	K Neighbors Regressor', 'Elastic Net', 'Dummy Regressor', 'Least Angle Regression'])
-            models.update({model: True for model in selected_models})
+            train_validate_models(X_train, y_train, X_test, y_test, model_type)
 
         if model_type == 'Classification':
-            selected_models = st.multiselect("Select models",["Logistic Regression", 'K Neighbors Classifier', 'Naive Bayes', 'Decision Tree Classifier', 'SVM - Linear Kernel', 'SVM - Radial Kernel', 'Gaussian Process Classifier', 'MLP Classifier', 'Ridge Classifier', 'Random Forest Classifier', 'Ada Boost Classifier', 'Extra Trees Classifier', '	Light Gradient Boosting Machine',	'Decision Tree Classifier', 	'SVM - Linear Kernel', 'Ridge Classifier', 	'Dummy Classifier'])
-            models.update({model: True for model in selected_models})
-
-        if st.button('Train Models'):
-            trained_models, scores = train_validate_models(X_train, y_train, X_test, y_test, model_type, selected_models)
-        
-            # Evaluate models
-            st.subheader('Model Evaluation')
-        
-            for model_name, score in scores.items():
-                st.write(f'{model_name}: {score}')
+            train_validate_models(X_train, y_train, X_test, y_test, model_type)
+       
 if __name__ == '__main__':
     main()
