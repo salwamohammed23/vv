@@ -9,7 +9,6 @@ from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split
 from pycaret.datasets import get_data
 from sklearn.metrics import mean_squared_error, accuracy_score
-from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 import streamlit as st
 #st.set_option('deprecation.showPyplotGlobalUse', False
 
@@ -198,7 +197,7 @@ def main():
         X = data.drop(target_variable, axis=1)
         y = data[target_variable]
 ###########################################################################################
-        # Display a title
+          # Display a title
         st.title('Perform EDA')
 
         # Display EDA
@@ -219,8 +218,6 @@ def main():
                 # Generate scatter plots
                 st.header("Scatter Plots")
                 generate_scatter_plots(data)
-            #eda_output = generate_eda(data, target_variable)
-            #st.write(eda_output[0])
 #############################################################################################
                 # Display Statistical
                # Generate summary statistics
