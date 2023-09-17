@@ -249,6 +249,9 @@ def main():
 
         if model_type == 'Classification':
             train_validate_models(X_train, y_train, X_test, y_test, model_type)
+        if st.button('Train Models'):
+            st.write( best)
+            st.write(eval)
        
 if __name__ == '__main__':
     main()
