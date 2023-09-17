@@ -241,17 +241,20 @@ def main():
 
             # Select models
         models = {}
-
-        model_type = st.radio("Select the model type", ("Regression", "Classification"))
-
-        if model_type == 'Regression':
-            train_validate_models(X_train, y_train, X_test, y_test, model_type)
-
-        if model_type == 'Classification':
-            train_validate_models(X_train, y_train, X_test, y_test, model_type)
         if st.button('Train Models'):
-            st.write( best)
-            st.write(eval)
+
+            model_type = st.radio("Select the model type", ("Regression", "Classification"))
+
+            if model_type == 'Regression':
+                train_validate_models(X_train, y_train, X_test, y_test, model_type)
+                st.write( best)
+                st.write(eval)
+    
+            if model_type == 'Classification':
+                train_validate_models(X_train, y_train, X_test, y_test, model_type)
+    
+                st.write( best)
+                st.write(eval)
        
 if __name__ == '__main__':
     main()
