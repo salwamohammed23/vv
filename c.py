@@ -158,7 +158,6 @@ def train_validate_models(X_train, y_train, X_test, y_test, model_type):
     return eval, best
     ############################################################################################
 def main():
-    
     st.sidebar.title('Machine Learning Package')
 
     # Upload data
@@ -173,8 +172,7 @@ def main():
     if filepath is not None:
         try:
             data = wrangle(filepath, file_format)
-            data= handle_Normalize_missing_values(data)
-            #st.dataframe(data)  # Display loaded dataset
+            # Perform other preprocessing steps as needed
         except Exception as e:
             st.error(f"Error: {str(e)}")
 
@@ -182,55 +180,11 @@ def main():
         st.write(data.head())
         # Select target variable
         target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
-        
-###############################################################################################       
-        # Select columns_need
-        columns_need = st.sidebar.multiselect('Select the columns which you need', data.columns)
-        
-        if st.button('Select_columns_need'):
-            data=data[columns_need]
-            #st.write(data.head())
-            st.write(data.columns)
-        # Check if data is empty
-###################################################################################
+
         # Split data into features and target
         X = data.drop(target_variable, axis=1)
         y = data[target_variable]
-###########################################################################################
-          # Display a title
-        st.title('Perform EDA')
 
-        # Display EDA
-        st.subheader('Exploratory Data Analysis')
-        if st.button('Generate EDA'):
-            if X.empty:
-                st.error('The feature data is empty.')
-                return
-            else:
-                # Generate histograms
-                st.header("Histograms")
-                generate_histograms(data)
-                
-                # Generate box plots
-                st.header("Box Plots")
-                generate_box_plots(data)
-                
-                # Generate scatter plots
-                st.header("Scatter Plots")
-                generate_scatter_plots(data)
-#############################################################################################
-                # Display Statistical
-               # Generate summary statistics
-        st.subheader('Summary Statistics')
-        if st.button('Generate Summary Statistics'):
-            summary_stats = data.describe()
-            st.write(summary_stats)
-                    # Calculate mode
-            st.subheader('Mode')
-            #if st.button('Calculate Mode'):
-            mode = data.mode().iloc[0]
-            st.write(mode)
-            ###############################################################################3
         # Split data into training and testing sets
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -239,22 +193,24 @@ def main():
             st.error('The training data is empty.')
             return
 
-            # Select models
+        # Select models
         models = {}
+
+        model_type = st.radio("Select the model type", ("Regression", "Classification"))
+
+        if model_type == 'Regression':
+            trained_models = train_validate_models(X_train, y_train, X_test, y_test, model_type)
+        elif model_type == 'Classification':
+            trained_models = train_validate_models(X_train, y_train, X_test, y_test, model_type)
+        else:
+            st.error("Invalid model type. Please choose either 'Regression' or 'Classification'.")
+
         if st.button('Train Models'):
+            for model_name, model in trained_models.items():
+                st.write(f"Model Name: {model_name}")
+                st.write(f"Model Evaluation: {model['eval']}")
+                st.write(f"Best Model: {model['best']}")
+                st.write('---')
 
-            model_type = st.radio("Select the model type", ("Regression", "Classification"))
-
-            if model_type == 'Regression':
-                train_validate_models(X_train, y_train, X_test, y_test, model_type)
-                st.write( best)
-                st.write(eval)
-    
-            if model_type == 'Classification':
-                train_validate_models(X_train, y_train, X_test, y_test, model_type)
-    
-                st.write( best)
-                st.write(eval)
-       
 if __name__ == '__main__':
     main()
