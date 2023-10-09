@@ -9,5 +9,4 @@ mlflow
 matplotlib
 pandas_profiling
 streamlit_pandas_profiling
---upgrade matplotlib
---upgrade pandas-profiling
+
