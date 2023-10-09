@@ -1,4 +1,4 @@
-pip install matplotlib==3.2.2
+
 import pandas as pd
 import streamlit as st
 import pandas_profiling as pf
