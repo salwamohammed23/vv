@@ -9,4 +9,4 @@ mlflow
 matplotlib==3.2.2
 pandas_profiling
 streamlit_pandas_profiling
-
+pip install pypandoc
