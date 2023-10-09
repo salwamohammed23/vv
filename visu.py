@@ -67,7 +67,7 @@ def main():
                 st.error('The feature data is empty.')
                 return
             else:
-                profile_report = data.profile_report()
+                profile_report = X.profile_report()
                 st.write(profile_report.to_html())
 
 
