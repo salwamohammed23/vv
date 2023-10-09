@@ -6,7 +6,7 @@ pandas-profiling
 pycaret[full]
 streamlit
 mlflow
-matplotlib=2.1.1
+matplotlib==3.2.2
 matplotlib
 pandas_profiling
 streamlit_pandas_profiling
