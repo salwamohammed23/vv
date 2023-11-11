@@ -162,22 +162,28 @@ def main():
         st.sidebar.success('Data successfully loaded!')
         st.write(data.head())
 
-    # Handle missing values and normalization
-    continuous_features_tdeal = st.selectbox("Choose the way to deal with continuous features:", ['mean()', 'median()', 'mode()'])
-    categorical_features_tdeal = st.selectbox("Choose the way to deal with categorical features:", ['ordinal_encoder', 'imputer'])
-    # Initialize the data variable
+        # Initialize the data variable
     try:
         data = handle_Normalize_missing_values(data, categorical_features_tdeal, continuous_features_tdeal)
     except Exception as e:
         print(f"An error occurred during data handling: {str(e)}")
         # You may want to handle this exception accordingly, e.g., exit the program or ask the user for a different file path.
+        return
 
-    # Drop columns
-    User_choice = st.radio("Do you want to drop columns?", ('Yes', 'No'))
-    if User_choice == 'Yes':
-        columns_to_drop = st.text_input('Enter the columns you want to drop (separated by commas):')
-        columns_to_drop = columns_to_drop.split(',')
+    #####################################################################
+    User_choice = input("Do you want to drop column choose 'y' or 'n': ")
+    
+    # Declare data here
+    if User_choice == 'y':
+        columns_to_drop = input('Enter the columns you want to drop (separated by commas): ').split(',')
         data.drop(columns=columns_to_drop, inplace=True)
+    elif User_choice == 'n':
+        pass
+    else:
+        print("Invalid choice. Please choose 'y' or 'n'.")
+        return
+
+    print(data.columns)
 
     # Show selected columns
     st.write(data.columns)
