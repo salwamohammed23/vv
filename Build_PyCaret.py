@@ -11,29 +11,34 @@ import pycaret
 from pycaret.classification import setup, compare_models
 from pycaret.regression import setup as regression_setup, compare_models as regression_compare_models
 # functin to load_data
-def load_data(file_path):
-    if '.' in file_path:
-        _, file_extension = file_path.rsplit('.', 1)
-    else:
-        # If no dot is found, consider the file extension as an empty string
-        file_extension = ''
+def wrangle(filepath, file_format):
+    # Function to load data from different formats
+    def load_data(file_path, file_format):
+        if file_format == 'csv':
+            return pd.read_csv(file_path)
+        elif file_format == 'excel':
+            return pd.read_excel(file_path)
+        elif file_format == 'sql':
+            # Code to load data from SQL database
+            #conn = sqlite3.connect('database.db')
+            pass
 
-    if file_extension == 'csv':
-        return pd.read_csv(file_path)
-    elif file_extension == 'xlsx':
-        return pd.read_excel(file_path)
-    elif file_extension == 'sql':
-        conn = sqlite3.connect('database.db')
-        # Fetch data from the database, replace 'table_name' with the actual table name
-        query = 'SELECT * FROM table_name;'
-        return pd.read_sql_query(query, conn)
-    else:
-        raise ValueError('Unsupported file format.')
+    # Load data using the load_data function
+    data = load_data(filepath, file_format)
 
-#############################################################################################
 
-def handle_duplicate_values(data):
-    data.drop_duplicates(inplace=True)
+
+    duplicate_values = data.duplicated().sum()
+
+    if duplicate_values > 0:
+        # Function to handle duplicate values
+        def handle_duplicate_values(df):
+            # Remove duplicate rows
+            df.drop_duplicates(inplace=True)
+            return df
+
+        data = handle_duplicate_values(data)
+
     return data
 ######################################################################
 #vigulize he data
@@ -141,13 +146,21 @@ def main():
     # Load data
     st.sidebar.subheader("File Selection")
 
-    file_path = st.text_input("Enter the file path:")
-    data = load_data(file_path)  # Assign data here
+    # File format selection
+    file_format = st.sidebar.selectbox("Select File Format", ['csv', 'excel'])
 
-    # Handle duplicate values
-    duplicate_values = data.duplicated().sum()
-    if duplicate_values > 0:
-        data = handle_duplicate_values(data)
+    # File upload
+    filepath = st.sidebar.file_uploader("Upload File", type=[file_format])
+
+    if filepath is not None:
+        try:
+            data = wrangle(filepath, file_format)
+            # Perform other preprocessing steps as needed
+        except Exception as e:
+            st.error(f"Error: {str(e)}")
+
+        st.sidebar.success('Data successfully loaded!')
+        st.write(data.head())
 
     # Handle missing values and normalization
     continuous_features_tdeal = st.selectbox("Choose the way to deal with continuous features:", ['mean()', 'median()', 'mode()'])
