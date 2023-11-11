@@ -136,19 +136,8 @@ def main():
     # Load data
     st.sidebar.subheader("File Selection")
 
-    # File format selection
-    file_format = st.sidebar.selectbox("Select File Format", ['csv', 'excel'])
-
-    # File upload
-    filepath = st.sidebar.file_uploader("Upload File", type=[file_format])
-
-    if filepath is not None:
-        try:
-            data = wrangle(filepath, file_format)
-            # Perform other preprocessing steps as needed
-        except Exception as e:
-            st.error(f"Error: {str(e)}")
-
+    file_path = st.text_input("Enter the file path:")
+    data = load_data(file_path)  # Assign data here
 
     # Handle duplicate values
     duplicate_values = data.duplicated().sum()
