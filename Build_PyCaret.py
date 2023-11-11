@@ -59,7 +59,7 @@ def generate_scatter_plots(data):
         for j, col2 in enumerate(numerical_cols):
             if i < j:
                 st.pyplot(sns.scatterplot(data=data, x=col1, y=col2))
-                st.title(f'Scatter Plot of {col1} vs {col2}
+                st.title(f'Scatter Plot of {col1} vs {col2})
 ########################################################################
 #handle_Normalize_missing_values
 ##################################################################################3
