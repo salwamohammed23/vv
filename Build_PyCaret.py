@@ -152,21 +152,14 @@ def main():
 
         st.sidebar.success('Data successfully loaded!')
         st.write(data.head())
-    continuous_features_tdeal = input("choose the way to treat continuous features choose 'mean()', 'median()', or 'mode(): ")
-    categorical_features_tdeal = input("choose the way to treat continuous features choose 'ordinal_encoder', or 'imputer': ")
-        # Initialize the data variable
-    try:
-        data = handle_Normalize_missing_values(data, categorical_features_tdeal, continuous_features_tdeal)
-    except Exception as e:
-        st.error(f"An error occurred during data handling: {str(e)}")
-        return
+     
 
     #####################################################################
     User_choice = input("Do you want to drop column choose 'y' or 'n': ")
     
     # Declare data here
     if User_choice == 'y':
-        columns_to_drop = input('Enter the columns you want to drop (separated by commas): ').split(',')
+        columns_to_drop = st.sidebar.multiselect('Select the columns you want to drop', data.columns)
         data.drop(columns=columns_to_drop, inplace=True)
     elif User_choice == 'n':
         pass
@@ -178,9 +171,19 @@ def main():
 
     # Show selected columns
     st.write(data.columns)
+       ##############################################################################################################################
+    continuous_features_tdeal = input("choose the way to treat continuous features choose 'mean()', 'median()', or 'mode(): ")
+    categorical_features_tdeal = input("choose the way to treat continuous features choose 'ordinal_encoder', or 'imputer': ")
+        # Initialize the data variable
+    try:
+        data = handle_Normalize_missing_values(data, categorical_features_tdeal, continuous_features_tdeal)
+    except Exception as e:
+        st.error(f"An error occurred during data handling: {str(e)}")
+        return
+        ########################################################################################
 
     # Select target variable
-    target_variable = st.text_input('Select the target variable:')
+    target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
 
     # Exploratory Data Analysis
     exploratory_data_analysis = st.radio("Do you want to explore your data?", ('Yes', 'No'))
