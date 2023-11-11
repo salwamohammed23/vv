@@ -12,7 +12,11 @@ from pycaret.classification import setup, compare_models
 from pycaret.regression import setup as regression_setup, compare_models as regression_compare_models
 # functin to load_data
 def load_data(file_path):
-    _, file_extension = file_path.rsplit('.', 1)
+    if '.' in file_path:
+        _, file_extension = file_path.rsplit('.', 1)
+    else:
+        # If no dot is found, consider the file extension as an empty string
+        file_extension = ''
 
     if file_extension == 'csv':
         return pd.read_csv(file_path)
@@ -25,6 +29,7 @@ def load_data(file_path):
         return pd.read_sql_query(query, conn)
     else:
         raise ValueError('Unsupported file format.')
+
 #############################################################################################
 
 def handle_duplicate_values(data):
