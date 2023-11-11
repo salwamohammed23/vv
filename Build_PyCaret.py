@@ -44,19 +44,13 @@ def wrangle(filepath, file_format):
 #vigulize he data
 def generate_histograms(data):
     for col in data.select_dtypes(include='number'):
-        plt.figure()
-        fig, ax = plt.subplots()
-        ax = sns.histplot(data[col])
-        plt.title(f'Histogram of {col}')
-        st.pyplot(fig)
+        st.pyplot(sns.histplot(data[col]))
+        st.title(f'Histogram of {col}')
 
 def generate_box_plots(data):
     for col in data.select_dtypes(include='number'):
-        plt.figure()
-        fig, ax = plt.subplots()
-        ax = sns.boxplot(data=data[col])
-        plt.title(f'Box Plot of {col}')
-        st.pyplot(fig)
+        st.pyplot(sns.boxplot(data=data[col]))
+        st.title(f'Box Plot of {col}')
 
 def generate_scatter_plots(data):
     numerical_cols = data.select_dtypes(include='number').columns
@@ -64,11 +58,8 @@ def generate_scatter_plots(data):
     for i, col1 in enumerate(numerical_cols):
         for j, col2 in enumerate(numerical_cols):
             if i < j:
-                plt.figure()
-                fig, ax = plt.subplots()
-                ax = sns.scatterplot(data=data, x=col1, y=col2)
-                plt.title(f'Scatter Plot of {col1} vs {col2}')
-                st.pyplot(fig)
+                st.pyplot(sns.scatterplot(data=data, x=col1, y=col2))
+                st.title(f'Scatter Plot of {col1} vs {col2}
 ########################################################################
 #handle_Normalize_missing_values
 ##################################################################################3
@@ -195,13 +186,13 @@ def main():
     # Exploratory Data Analysis
     exploratory_data_analysis = st.radio("Do you want to explore your data?", ('Yes', 'No'))
     if exploratory_data_analysis == 'Yes':
-        # Generate histograms
+            # Generate histograms
         generate_histograms(data)
 
-        # Generate box plots
+            # Generate box plots
         generate_box_plots(data)
 
-        # Generate scatter plots
+            # Generate scatter plots
         generate_scatter_plots(data)
 
     # Display Statistical
