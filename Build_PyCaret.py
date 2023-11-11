@@ -175,11 +175,7 @@ def main():
     continuous_features_tdeal = input("choose the way to treat continuous features choose 'mean()', 'median()', or 'mode(): ")
     categorical_features_tdeal = input("choose the way to treat continuous features choose 'ordinal_encoder', or 'imputer': ")
         # Initialize the data variable
-    try:
-        data = handle_Normalize_missing_values(data, categorical_features_tdeal, continuous_features_tdeal)
-    except Exception as e:
-        st.error(f"An error occurred during data handling: {str(e)}")
-        return
+    data = handle_Normalize_missing_values(data, categorical_features_tdeal, continuous_features_tdeal)
         ########################################################################################
 
     # Select target variable
