@@ -4,9 +4,8 @@ import seaborn as sns
 import pandas_profiling as pf
 from streamlit_pandas_profiling import st_profile_report
 from pycaret.classification import setup as classification_setup, compare_models as classification_compare_models
-from pycaret.regression import setup as regression_setup, compare_models as regression_compare_model
-from pycaret.classification import *
-from pycaret.regression import *
+from pycaret.regression import setup as regression_setup, compare_models as regression_compare_models
+
 from sklearn.impute import SimpleImputer
 
 from sklearn.metrics import mean_squared_error, accuracy_score
@@ -197,13 +196,13 @@ def main():
             if model_type == 'Classification':
                 st.write('The case is classification')
                 classification_setup(data=data, target=target_variable)
-                classification_compare_models_result = classification_compare_models()
-                st.write(classification_compare_models_result)
+                best_class = classification_compare_models()
+                st.write(best_class)
             elif model_type == 'Regression':
                 print('The case is regression')
                 regression_setup(data=data, target=target_variable)
-                regression_compare_models_result = regression_compare_models()
-                st.write(regression_compare_models_result)
+                best_reg = regression_compare_models()
+                st.write(best_reg)
 
      
 
