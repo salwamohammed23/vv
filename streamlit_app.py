@@ -3,11 +3,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas_profiling as pf
 from streamlit_pandas_profiling import st_profile_report
+from pycaret.classification import setup as classification_setup, compare_models as classification_compare_models
+from pycaret.regression import setup as regression_setup, compare_models as regression_compare_model
 from pycaret.classification import *
 from pycaret.regression import *
 from sklearn.impute import SimpleImputer
-from sklearn.model_selection import train_test_split
-from pycaret.datasets import get_data
+
 from sklearn.metrics import mean_squared_error, accuracy_score
 import streamlit as st
 #st.set_option('deprecation.showPyplotGlobalUse', False
@@ -123,39 +124,7 @@ def generate_scatter_plots(df):
                 
 ##############################################################################################################
 
-from pycaret.classification import ClassificationExperiment
-from pycaret.regression import RegressionExperiment
 
-def train_validate_models(X_train, y_train, X_test, y_test, model_type):
-    trained_models = {}
-    scores = {}
-
-    if model_type == 'Classification':
-        try:
-            setup(data=X_train, target=y_train)
-            exp = ClassificationExperiment()
-            exp.setup(data=X_train, target=y_train)  # Replace 'target_column_name' with the actual name of your target column
-            best=exp.compare_models()
-            eval=evaluate_model(best)
-
-        except Exception as e:
-            print(f"An error occurred during classification model training: {str(e)}")
-
-    elif model_type == 'Regression':
-        try:
-            setup(data=X_train, target=y_train)
-            exp = RegressionExperiment()
-            exp.setup(data=X_train, target=y_train)  # Replace 'target_column_name' with the actual name of your target column
-            best=exp.compare_models()
-            eval=evaluate_model(best)
-
-        except Exception as e:
-            print(f"An error occurred during regression model training: {str(e)}")
-
-    else:
-        print("Invalid model type. Please choose either 'Classification' or 'Regression'.")
-
-    return eval, best
     ############################################################################################
 def main():
     st.sidebar.title('Machine Learning Package')
@@ -222,16 +191,7 @@ def main():
             st.write(mode)
             ###############################################################################3
 
-        # Split data into training and testing sets
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-        # Check if training data is empty
-        if X_train.empty or y_train.empty:
-            st.error('The training data is empty.')
-            return
-
-        # Select models
-        models = {}
         if st.button('Train Models'):
 
             model_type = st.radio("Select the model type", ("Regression", "Classification"))
@@ -240,12 +200,12 @@ def main():
                 st.write('The case is classification')
                 classification_setup(data=data, target=target_variable)
                 classification_compare_models=classification_compare_models()
-                st.write('---')
+                st.write(classification_compare_models)
             elif model_type == 'Regression':
                 print('The case is regression')
                 regression_setup(data=data, target=target_variable)
                 regression_compare_models=regression_compare_models()
-                st.write('---')
+                st.write(regression_compare_models)
      
 
 if __name__ == '__main__':
