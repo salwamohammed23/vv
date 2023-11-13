@@ -236,17 +236,15 @@ def main():
 
             model_type = st.radio("Select the model type", ("Regression", "Classification"))
     
-            if model_type == 'Regression':
-                trained_models = train_validate_models(X_train, y_train, X_test, y_test, model_type)
-                st.write(f"Model Name: {model_name}")
-                st.write(f"Model Evaluation: {model['eval']}")
-                st.write(f"Best Model: {model['best']}")
+            if model_type == 'Classification':
+                st.write('The case is classification')
+                classification_setup(data=data, target=target_variable)
+                classification_compare_models=classification_compare_models()
                 st.write('---')
-            elif model_type == 'Classification':
-                trained_models = train_validate_models(X_train, y_train, X_test, y_test, model_type)
-                st.write(f"Model Name: {model_name}")
-                st.write(f"Model Evaluation: {model['eval']}")
-                st.write(f"Best Model: {model['best']}")
+            elif model_type == 'Regression':
+                print('The case is regression')
+                regression_setup(data=data, target=target_variable)
+                regression_compare_models=regression_compare_models()
                 st.write('---')
      
 
