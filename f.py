@@ -1,6 +1,6 @@
 import pandas as pd
 import streamlit as st
-from my_package.data_loader import load_data
+#from my_package.data_loader import load_data
 from my_package.eda import perform_eda
 from my_package.model_trainer import train_regression_model, train_classification_model
 from pycaret.regression import *
@@ -41,9 +41,9 @@ def main():
 
     # EDA
     st.header("Exploratory Data Analysis (EDA)")
-    #if st.button("Perform EDA"):
-     #   profile = perform_eda(data)
-      #  st_profile_report(profile)
+    if st.button("Perform EDA"):
+        profile = perform_eda(data)
+        st_profile_report(profile)
 
     # Model Training
     st.header("Model Training")
