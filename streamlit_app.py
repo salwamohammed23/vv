@@ -164,18 +164,18 @@ def main():
                 return
             else:
                 # Generate histograms
-                st.header("Histograms")
-                generate_histograms(data)
+                #st.header("Histograms")
+                #generate_histograms(data)
                 
                 # Generate box plots
-                st.header("Box Plots")
-                generate_box_plots(data)
+                #st.header("Box Plots")
+                #generate_box_plots(data)
                 
                 # Generate scatter plots
-                st.header("Scatter Plots")
-                generate_scatter_plots(data)
-            #eda_output = generate_eda(data, target_variable)
-            #st.write(eda_output[0])
+                #st.header("Scatter Plots")
+                #generate_scatter_plots(data)
+            eda_output = generate_eda(data, target_variable)
+            st.write(eda_output[0])
 #############################################################################################
                 # Display Statistical
                # Generate summary statistics
