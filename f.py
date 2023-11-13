@@ -1,8 +1,9 @@
 import pandas as pd
 import streamlit as st
 #from my_package.data_loader import load_data
-from my_package.eda import perform_eda
-from my_package.model_trainer import train_regression_model, train_classification_model
+#from my_package.eda import perform_eda
+from pandas_profiling import ProfileReport
+#from my_package.model_trainer import train_regression_model, train_classification_model
 from pycaret.regression import *
 from pycaret.classification import *
 def load_data(file_path):
