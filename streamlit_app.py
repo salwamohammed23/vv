@@ -191,21 +191,20 @@ def main():
             st.write(mode)
             ###############################################################################3
 
-
         if st.button('Train Models'):
-
             model_type = st.radio("Select the model type", ("Regression", "Classification"))
-    
+        
             if model_type == 'Classification':
                 st.write('The case is classification')
                 classification_setup(data=data, target=target_variable)
-                classification_compare_models=classification_compare_models()
-                st.write(classification_compare_models)
+                classification_compare_models_result = classification_compare_models()
+                st.write(classification_compare_models_result)
             elif model_type == 'Regression':
                 print('The case is regression')
                 regression_setup(data=data, target=target_variable)
-                regression_compare_models=regression_compare_models()
-                st.write(regression_compare_models)
+                regression_compare_models_result = regression_compare_models()
+                st.write(regression_compare_models_result)
+
      
 
 if __name__ == '__main__':
