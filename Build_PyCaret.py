@@ -128,16 +128,16 @@ def train_validate_models(data, target_variable):
     if target_variable in categorical_features:
         try:
             st.write('The case is classification')
-            pycaret.classification.setup(data=data, target=target_variable)
-            pycaret.classification.compare_models()
+            st.write(pycaret.classification.setup(data=data, target=target_variable))
+            st.write(pycaret.classification.compare_models())
         except Exception as e:
             st.error(f"An error occurred during classification model training: {str(e)}")
 
     elif target_variable in continuous_features:
         try:
             st.write('The case is regression')
-            regression_setup(data=data, target=target_variable)
-            regression_compare_models()
+            st.write('regression_setup(data=data, target=target_variable))
+            st.write('regression_compare_models())
         except Exception as e:
             st.error(f"An error occurred during regression model training: {str(e)}")
 ##############################################################################333
@@ -164,47 +164,57 @@ def main():
 
 
             st.sidebar.success('Data successfully loaded!')
-            st.write(data.head())
-         
-    
-        #####################################################################
-            User_choice = st.radio("Do you want to explore your data?", ('Yes', 'No'))
-            
-            # Declare data here
-            if User_choice == 'Yes':
-                columns_to_drop = st.sidebar.multiselect('Select the columns you want to drop', data.columns)
-                data.drop(columns=columns_to_drop, inplace=True)
-            elif User_choice == 'No':
-                pass
-            # Show selected columns
-            st.write(data.columns)
-               ##############################################################################################################################
             # Select target variable
             target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
         
-            # Exploratory Data Analysis
-            exploratory_data_analysis = st.radio("Do you want to explore your data?", ('No','Yes'))
-            if exploratory_data_analysis == 'Yes':
-                    # Generate histograms
-                generate_histograms(data)
-        
-                    # Generate box plots
-                generate_box_plots(data)
-        
-                    # Generate scatter plots
-                generate_scatter_plots(data)
-        
-            # Display Statistical
-            display_statistical = st.radio("Do you want to get statistical summary for your data?", ('Yes', 'No'))
-            if display_statistical == 'Yes':
-                st.write(data.describe())
-                st.write('Mode')
-                st.write(data.mode().iloc[0])
-        
-            # Train models
-            train_models = st.radio("Do you want to train models?", ('Yes', 'No'))
-            if train_models == 'Yes':
-                train_validate_models(data, target_variable)
+            
+            ###################################################################33333
+            tab1, tab2,tab3,tab4= st.tabs(["Show data", "Exploratory Data Analysis","Display Statistical","Train models"])
+
+            # Image Inference Section
+            with tab1:
+                st.write(data.head())
+         
+    
+            #####################################################################
+                User_choice = st.radio("Do you want to drop your data?", ('No','Yes'))
+                
+                # Declare data here
+                if User_choice == 'Yes':
+                    columns_to_drop = st.sidebar.multiselect('Select the columns you want to drop', data.columns)
+                    data.drop(columns=columns_to_drop, inplace=True)
+                elif User_choice == 'No':
+                    pass
+                # Show selected columns
+                st.write(data.columns)
+               ##############################################################################################################################
+             with tab2:
+                # Exploratory Data Analysis
+                if st.button('Explor Data'):
+                
+                        # Generate histograms
+                    generate_histograms(data)
+            
+                        # Generate box plots
+                    generate_box_plots(data)
+            
+                        # Generate scatter plots
+                    generate_scatter_plots(data)
+            ##################################################################
+            with tab3:   
+                # Display Statistical
+                
+                if st.button('Display Statistical'):
+                    st.write(data.describe())
+                    st.write('Mode')
+                    st.write(data.mode().iloc[0])
+                    #################################################3
+            with tab4:
+            
+                # Train models
+                
+                if st.button('Train Models'):
+                    train_validate_models(data, target_variable)
         except Exception as e:
             st.error(f"Error: {str(e)}")
         
