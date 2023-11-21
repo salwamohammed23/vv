@@ -76,24 +76,42 @@ def wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal):
     return data
 ######################################################################
 #vigulize he data
-def generate_histograms(data):
-    for col in data.select_dtypes(include='number'):
-        st.pyplot(sns.histplot(data[col]))
-        st.title(f'Histogram of {col}')
+def generate_histograms(df):
+    for col in df.select_dtypes(include='number'):
+        plt.figure()
+        fig, ax = plt.subplots()
+        ax =sns.histplot(df[col])
+        plt.title(f'Histogram of {col}')
+        # ... Perform your plotting actions on the figure ...
+        st.pyplot(fig)
 
-def generate_box_plots(data):
-    for col in data.select_dtypes(include='number'):
-        st.pyplot(sns.boxplot(data=data[col]))
-        st.title(f'Box Plot of {col}')
+# Function to generate box plots
+def generate_box_plots(df):
+    for col in df.select_dtypes(include='number'):
+        plt.figure()
+        fig, ax = plt.subplots()
+        ax =sns.boxplot(data=df[col])
+        plt.title(f'Box Plot of {col}')
+        # After
+         
+        # ... Perform your plotting actions on the figure ...
+        st.pyplot(fig)
 
-def generate_scatter_plots(data):
-    numerical_cols = data.select_dtypes(include='number').columns
+# Function to generate scatter plots
+def generate_scatter_plots(df):
+    numerical_cols = df.select_dtypes(include='number').columns
 
     for i, col1 in enumerate(numerical_cols):
         for j, col2 in enumerate(numerical_cols):
             if i < j:
-                st.pyplot(sns.scatterplot(data=data, x=col1, y=col2))
-                st.title(f'Scatter Plot of {col1} vs {col2}')
+                plt.figure()
+                fig, ax = plt.subplots()
+                ax = sns.scatterplot(data=df, x=col1, y=col2)
+                plt.title(f'Scatter Plot of {col1} vs {col2}')
+                # After
+                 
+                # ... Perform your plotting actions on the figure ...
+                st.pyplot(fig)
 ########################################################################
 #train_validate_models
 ######################################################
