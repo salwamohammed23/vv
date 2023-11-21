@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import sqlite3
+import os
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, accuracy_score
@@ -70,14 +71,8 @@ def handle_normalize_missing_values(data, categorical_features_tdeal, continuous
 
 def wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal):
     data = load_data(file_path)
-    st.write('sum of nul value befor')
-    st.write(data.isnull().sum())
-    st.write('--------------------------------------------------------------------------------------------')
     data =handle_duplicate_values(data)
     data = handle_normalize_missing_values(data, categorical_features_tdeal, continuous_features_tdeal)
-    st.write('sum of nul value after')
-
-    st.write(data.isnull().sum())
     return dat
 ######################################################################
 #vigulize he data
