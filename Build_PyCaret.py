@@ -100,10 +100,6 @@ def generate_scatter_plots(data):
                 st.pyplot(sns.scatterplot(data=data, x=col1, y=col2))
                 st.title(f'Scatter Plot of {col1} vs {col2}')
 ########################################################################
-#handle_Normalize_missing_values
-##################################################################################3
-
-#####################################################333
 #train_validate_models
 ######################################################
 def train_validate_models(data, target_variable):
@@ -146,9 +142,9 @@ def main():
     file_format = st.sidebar.selectbox("Select File Format", ['csv', 'excel'])
 
     # File upload
-    filepath = st.sidebar.file_uploader("Upload File", type=[file_format])
+    file_path = st.sidebar.file_uploader("Upload File", type=[file_format])
 
-    if filepath is not None:
+    if file_path is not None:
         try:
             data = wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal)
             # Perform other preprocessing steps as needed
