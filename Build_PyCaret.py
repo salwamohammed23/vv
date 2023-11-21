@@ -73,7 +73,7 @@ def wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal):
     data = load_data(file_path)
     data =handle_duplicate_values(data)
     data = handle_normalize_missing_values(data, categorical_features_tdeal, continuous_features_tdeal)
-    return dat
+    return data
 ######################################################################
 #vigulize he data
 def generate_histograms(data):
