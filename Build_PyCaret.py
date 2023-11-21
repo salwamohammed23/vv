@@ -154,51 +154,51 @@ def main():
             # Perform other preprocessing steps as needed
 
 
-        st.sidebar.success('Data successfully loaded!')
-        st.write(data.head())
-     
-
-    #####################################################################
-    User_choice = st.radio("Do you want to explore your data?", ('Yes', 'No'))
+            st.sidebar.success('Data successfully loaded!')
+            st.write(data.head())
+         
     
-    # Declare data here
-    if User_choice == 'Yes':
-        columns_to_drop = st.sidebar.multiselect('Select the columns you want to drop', data.columns)
-        data.drop(columns=columns_to_drop, inplace=True)
-    elif User_choice == 'No':
-        pass
-
+        #####################################################################
+        User_choice = st.radio("Do you want to explore your data?", ('Yes', 'No'))
+        
+        # Declare data here
+        if User_choice == 'Yes':
+            columns_to_drop = st.sidebar.multiselect('Select the columns you want to drop', data.columns)
+            data.drop(columns=columns_to_drop, inplace=True)
+        elif User_choice == 'No':
+            pass
     
-
-    # Show selected columns
-    st.write(data.columns)
-       ##############################################################################################################################
-    # Select target variable
-    target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
-
-    # Exploratory Data Analysis
-    exploratory_data_analysis = st.radio("Do you want to explore your data?", ('No','Yes'))
-    if exploratory_data_analysis == 'Yes':
-            # Generate histograms
-        generate_histograms(data)
-
-            # Generate box plots
-        generate_box_plots(data)
-
-            # Generate scatter plots
-        generate_scatter_plots(data)
-
-    # Display Statistical
-    display_statistical = st.radio("Do you want to get statistical summary for your data?", ('Yes', 'No'))
-    if display_statistical == 'Yes':
-        st.write(data.describe())
-        st.write('Mode')
-        st.write(data.mode().iloc[0])
-
-    # Train models
-    train_models = st.radio("Do you want to train models?", ('Yes', 'No'))
-    if train_models == 'Yes':
-        train_validate_models(data, target_variable)
+        
+    
+        # Show selected columns
+        st.write(data.columns)
+           ##############################################################################################################################
+        # Select target variable
+        target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
+    
+        # Exploratory Data Analysis
+        exploratory_data_analysis = st.radio("Do you want to explore your data?", ('No','Yes'))
+        if exploratory_data_analysis == 'Yes':
+                # Generate histograms
+            generate_histograms(data)
+    
+                # Generate box plots
+            generate_box_plots(data)
+    
+                # Generate scatter plots
+            generate_scatter_plots(data)
+    
+        # Display Statistical
+        display_statistical = st.radio("Do you want to get statistical summary for your data?", ('Yes', 'No'))
+        if display_statistical == 'Yes':
+            st.write(data.describe())
+            st.write('Mode')
+            st.write(data.mode().iloc[0])
+    
+        # Train models
+        train_models = st.radio("Do you want to train models?", ('Yes', 'No'))
+        if train_models == 'Yes':
+            train_validate_models(data, target_variable)
         except Exception as e:
             st.error(f"Error: {str(e)}")
         
