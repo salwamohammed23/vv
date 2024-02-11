@@ -86,7 +86,7 @@ def generate_histograms(data):
         sns.histplot(data[col], ax=ax)
         st.pyplot(fig)
         st.title(f'Histogram of {col}')
-        plt.savefig('path/to/save/figure.png')
+        #plt.savefig('path/to/save/figure.png')
 
 # Function to generate box plots
 def generate_box_plots(data):
@@ -95,7 +95,7 @@ def generate_box_plots(data):
         sns.boxplot(data[col], ax=ax)
         st.pyplot(fig)
         st.title(f'boxplot of {col}')
-        plt.savefig('path/to/save/figure.png')
+       # plt.savefig('path/to/save/figure.png')
 
 # Function to generate scatter plots
 def generate_scatter_plots(data):
