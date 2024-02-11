@@ -5,14 +5,15 @@ import seaborn as sns
 import os
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder, OrdinalEncoder
 from sklearn.impute import SimpleImputer
+
 # Add custom CSS to hide the footer, header
 hide_st_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            header {visibility: hidden;}
-            </style>
-            """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+</style>
+"""
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
 
@@ -106,6 +107,7 @@ def generate_box_plots(data):
         plt.title(f'Box Plot of {col}')
         
         st.pyplot(fig)
+        
 # Function to generate scatter plots
 def generate_scatter_plots(df):
     numerical_cols = df.select_dtypes(include='number').columns
@@ -121,11 +123,7 @@ def generate_scatter_plots(df):
                  
                 # ... Perform your plotting actions on the figure ...
 
-    st.pyplot(fig)  # Move this line outside the for loop to display the final figure after all plots are generated
-
-
-                
-
+                st.pyplot(fig)  # Move this line outside the for loop to display the final figure after all plots are generated
 
 
 # Main function
@@ -140,37 +138,37 @@ def main():
 
     if file_path is not None:
         try:
-
             data = wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal)
             st.sidebar.success('Data successfully loaded!')
 
             # Select target variable
             target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
-                                # Split the page into two tabs
-            tab1, tab2,tab3= st.tabs(["Display visualization", "Download Processed Data","Display Statistical"])
-                    with tab1:            
-                            if st.button('Display visualization'):
-                            generate_box_plots(data)
-                            generate_scatter_plots(data)
-                            generate_histograms(data)
-                    with tab2: 
-                        # Add a button to download processed data
-                            if st.button('Download Processed Data'):
-                                # Convert DataFrame to CSV and set the appropriate filename
-                                csv = data.to_csv(index=False)
-                                st.download_button(
-                                    label="Download CSV",
-                                    data=csv,
-                                    file_name='processed_data.csv',
-                                    mime='text/csv'
-                                )
-                                
-                    with tab3:                                            
-                            # Display Statistical
-                            if st.button('Display Statistical Summary'):
-                                st.write(data.describe())
-                                st.write('Mode')
-                                st.write(data.mode().iloc[0])
+
+            # Split the page into two tabs
+            tab1, tab2, tab3 = st.columns(3)
+            
+            with tab1:
+                if st.button('Display visualization'):
+                    generate_box_plots(data)
+                    generate_scatter_plots(data)
+                    generate_histograms(data)
+                    
+            with tab2: 
+                if st.button('Download Processed Data'):
+                    # Convert DataFrame to CSV and set the appropriate filename
+                    csv = data.to_csv(index=False)
+                    st.download_button(
+                        label="Download CSV",
+                        data=csv,
+                        file_name='processed_data.csv',
+                        mime='text/csv'
+                    )
+                    
+            with tab3:                                            
+                if st.button('Display Statistical Summary'):
+                    st.write(data.describe())
+                    st.write('Mode')
+                    st.write(data.mode().iloc[0])
 
         except Exception as e:
             st.error(f"Error: {str(e)}")
