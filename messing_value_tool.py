@@ -1,4 +1,4 @@
-import streamlit as st
+ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -68,6 +68,8 @@ def handle_normalize_missing_values(data, categorical_features_tdeal, continuous
 
     encoder = LabelEncoder()
     for feature in categorical_features:
+        # Convert feature to string type to ensure uniformity
+        data[feature] = data[feature].astype(str)
         data[feature] = encoder.fit_transform(data[feature])
 
     return data
@@ -93,7 +95,7 @@ def generate_histograms(data):
     for col in data.select_dtypes(include='number'):
         plt.figure()
         fig, ax = plt.subplots()
-        ax =sns.histplot(data[col])
+        ax = sns.histplot(data[col])
         plt.title(f'Histogram of {col}')
         # ... Perform your plotting actions on the figure ...
         st.pyplot(fig)
@@ -103,7 +105,7 @@ def generate_box_plots(data):
     for col in data.select_dtypes(include='number'):
         plt.figure()
         fig, ax = plt.subplots()
-        ax =sns.boxplot(data=data[col])
+        ax = sns.boxplot(data=data[col])
         plt.title(f'Box Plot of {col}')
         
         st.pyplot(fig)
