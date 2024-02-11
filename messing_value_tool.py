@@ -2,14 +2,11 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import sqlite3
-from sklearn.impute import SimpleImputer
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, accuracy_score
-from sklearn.preprocessing import MinMaxScaler, LabelEncoder, OrdinalEncoder
 import os
+from sklearn.preprocessing import MinMaxScaler, LabelEncoder, OrdinalEncoder
+from sklearn.impute import SimpleImputer
 
-# functin to load_data
+# Function to load data
 def load_data(file_path):
     _, file_extension = os.path.splitext(file_path.name)
 
@@ -17,18 +14,15 @@ def load_data(file_path):
         return pd.read_csv(file_path)
     elif file_extension == '.xlsx':
         return pd.read_excel(file_path)
-    #elif file_extension == 'sql':
-       # conn = sqlite3.connect('database.db')
-        # TODO: Implement SQL data loading logic
-        pass
     else:
         raise ValueError('Unsupported file format.')
 
+# Function to handle duplicate values
 def handle_duplicate_values(data):
-    # Function to handle duplicate values
     data.drop_duplicates(inplace=True)
     return data
 
+# Function to handle missing values normalization
 def handle_normalize_missing_values(data, categorical_features_tdeal, continuous_features_tdeal):
     continuous_features = []
     categorical_features = []
@@ -67,20 +61,19 @@ def handle_normalize_missing_values(data, categorical_features_tdeal, continuous
 
     return data
 
+# Function to wrangle data
 def wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal):
     data = load_data(file_path)
     st.write('sum of nul value befor')
     st.write(data.isnull().sum())
     st.write('--------------------------------------------------------------------------------------------')
-    data =handle_duplicate_values(data)
+    data = handle_duplicate_values(data)
     data = handle_normalize_missing_values(data, categorical_features_tdeal, continuous_features_tdeal)
     st.write('sum of nul value after')
-
     st.write(data.isnull().sum())
     return data
 
-######################################################################
-#vigulize he data
+# Function to generate histograms
 def generate_histograms(data):
     for col in data.select_dtypes(include='number'):
         fig, ax = plt.subplots()
@@ -89,6 +82,7 @@ def generate_histograms(data):
         st.title(f'Histogram of {col}')
         plt.savefig('path/to/save/figure.png')
 
+# Function to generate box plots
 def generate_box_plots(data):
     for col in data.select_dtypes(include='number'):
         fig, ax = plt.subplots()
@@ -97,7 +91,7 @@ def generate_box_plots(data):
         st.title(f'boxplot of {col}')
         plt.savefig('path/to/save/figure.png')
 
-
+# Function to generate scatter plots
 def generate_scatter_plots(data):
     numerical_cols = data.select_dtypes(include='number').columns
 
@@ -106,58 +100,43 @@ def generate_scatter_plots(data):
             if i < j:
                 st.pyplot(sns.scatterplot(data=data, x=col1, y=col2))
                 st.title(f'Scatter Plot of {col1} vs {col2}')
-########################################################################
 
-#apply sttreamlit
-################################################333333333
+# Main function
 def main():
-    continuous_features_tdeal = st.sidebar.selectbox('choose the way to treat continuous features :', ["mean()", "median()", "mode()"])
-    categorical_features_tdeal = st.sidebar.selectbox("choose the way to treat categorical features  :", ["ordinal_encoder"])
+    continuous_features_tdeal = st.sidebar.selectbox('Choose the way to treat continuous features:', ["mean()", "median()", "mode()"])
+    categorical_features_tdeal = st.sidebar.selectbox("Choose the way to treat categorical features:", ["ordinal_encoder"])
 
     # Load data
     st.sidebar.subheader("File Selection")
-
-    # File format selection
     file_format = st.sidebar.selectbox("Select File Format", ['csv', 'excel'])
-
-    # File upload
     file_path = st.sidebar.file_uploader("Upload File", type=[file_format])
 
     if file_path is not None:
         try:
-
             data = wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal)
             st.sidebar.success('Data successfully loaded!')
-            
 
             # Select target variable
             target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
-            col1, col2 = st.columns(2)
-            with col1:
-                st.write(data.head())
-                
-                # Add a button to download processed data
-                if st.button('Download Processed Data'):
-                    # Convert DataFrame to CSV and set the appropriate filename
-                    csv = data.to_csv(index=False)
-                    st.download_button(
-                        label="Download CSV",
-                        data=csv,
-                        file_name='processed_data.csv',
-                        mime='text/csv'
-                    )
-             with col2:
-                                # Display Statistical
-                if st.button('display_statistical '):
-                    st.write(data.describe())
-                    st.write('Mode')
-                    st.write(data.mode().iloc[0])         
 
+            # Display Statistical
+            if st.button('Display Statistical Summary'):
+                st.write(data.describe())
+                st.write('Mode')
+                st.write(data.mode().iloc[0])
 
+            # Add a button to download processed data
+            if st.button('Download Processed Data'):
+                csv = data.to_csv(index=False)
+                st.download_button(
+                    label="Download CSV",
+                    data=csv,
+                    file_name='processed_data.csv',
+                    mime='text/csv'
+                )
 
         except Exception as e:
             st.error(f"Error: {str(e)}")
-
 
 if __name__ == '__main__':
     main()
