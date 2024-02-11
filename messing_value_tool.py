@@ -97,14 +97,23 @@ def generate_box_plots(data):
         
         st.pyplot(fig)
 # Function to generate scatter plots
-def generate_scatter_plots(data):
-    numerical_cols = data.select_dtypes(include='number').columns
+def generate_scatter_plots(df):
+    numerical_cols = df.select_dtypes(include='number').columns
 
     for i, col1 in enumerate(numerical_cols):
         for j, col2 in enumerate(numerical_cols):
             if i < j:
-                st.pyplot(sns.scatterplot(data=data, x=col1, y=col2))
-                st.title(f'Scatter Plot of {col1} vs {col2}')
+                plt.figure()
+                fig, ax = plt.subplots()
+                ax = sns.scatterplot(data=df, x=col1, y=col2)
+                plt.title(f'Scatter Plot of {col1} vs {col2}')
+                # After
+                 
+                # ... Perform your plotting actions on the figure ...
+                st.pyplot(fig)
+                
+
+
 
 # Main function
 def main():
