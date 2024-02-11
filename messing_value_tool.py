@@ -83,17 +83,17 @@ def generate_histograms(data):
     for col in df.select_dtypes(include='number'):
         plt.figure()
         fig, ax = plt.subplots()
-        ax =sns.histplot(df[col])
+        ax =sns.histplot(data[col])
         plt.title(f'Histogram of {col}')
         # ... Perform your plotting actions on the figure ...
         st.pyplot(fig)
 
 # Function to generate box plots
-def generate_box_plots(df):
+def generate_box_plots(data):
     for col in df.select_dtypes(include='number'):
         plt.figure()
         fig, ax = plt.subplots()
-        ax =sns.boxplot(data=df[col])
+        ax =sns.boxplot(data=data[col])
         plt.title(f'Box Plot of {col}')
         # After
          
