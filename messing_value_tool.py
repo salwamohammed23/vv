@@ -76,7 +76,7 @@ def wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal):
         st.write('sum of nul value after')
         st.write(data.isnull().sum())
     return data
-    st.write('--------------------------------------------------------------------------------------------')
+ 
 
 # Function to generate histograms
 def generate_histograms(data):
@@ -123,6 +123,14 @@ def main():
 
             # Select target variable
             target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
+            st.write('--------------------------------------------------------------------------------------------')
+            if st.button('Display visualization'):
+                generate_box_plots(data)
+                generate_scatter_plots(data)
+                generate_histograms(data)
+             st.write('--------------------------------------------------------------------------------------------')   
+                
+         
 
             col1, col2 = st.columns(2)
             with col1:
