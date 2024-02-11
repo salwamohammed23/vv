@@ -119,21 +119,26 @@ def main():
             # Select target variable
             target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
 
-            # Display Statistical
-            if st.button('Display Statistical Summary'):
-                st.write(data.describe())
-                st.write('Mode')
-                st.write(data.mode().iloc[0])
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write(data.head())
+                # Add a button to download processed data
+                if st.button('Download Processed Data'):
+                    # Convert DataFrame to CSV and set the appropriate filename
+                    csv = data.to_csv(index=False)
+                    st.download_button(
+                        label="Download CSV",
+                        data=csv,
+                        file_name='processed_data.csv',
+                        mime='text/csv'
+                    )
 
-            # Add a button to download processed data
-            if st.button('Download Processed Data'):
-                csv = data.to_csv(index=False)
-                st.download_button(
-                    label="Download CSV",
-                    data=csv,
-                    file_name='processed_data.csv',
-                    mime='text/csv'
-                )
+            with col2:
+                # Display Statistical
+                if st.button('Display Statistical Summary'):
+                    st.write(data.describe())
+                    st.write('Mode')
+                    st.write(data.mode().iloc[0])
 
         except Exception as e:
             st.error(f"Error: {str(e)}")
