@@ -1,4 +1,4 @@
-import streamlit as st
+    import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -125,30 +125,35 @@ def main():
 
     if file_path is not None:
         try:
+
             data = wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal)
             st.sidebar.success('Data successfully loaded!')
-            st.write(data.head())
+            
 
             # Select target variable
             target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
+            with col1:
+                st.write(data.head())
+                
+                # Add a button to download processed data
+                if st.button('Download Processed Data'):
+                    # Convert DataFrame to CSV and set the appropriate filename
+                    csv = data.to_csv(index=False)
+                    st.download_button(
+                        label="Download CSV",
+                        data=csv,
+                        file_name='processed_data.csv',
+                        mime='text/csv'
+                    )
+             with col2:
+                                # Display Statistical
+                if st.button('display_statistical '):
+                    st.write(data.describe())
+                    st.write('Mode')
+                    st.write(data.mode().iloc[0])         
 
-            # Display Statistical
-            display_statistical = st.radio("Do you want to get statistical summary for your data?", ('Yes', 'No'))
-            if display_statistical == 'Yes':
-                st.write(data.describe())
-                st.write('Mode')
-                st.write(data.mode().iloc[0])
 
-            # Add a button to download processed data
-            if st.button('Download Processed Data'):
-                # Convert DataFrame to CSV and set the appropriate filename
-                csv = data.to_csv(index=False)
-                st.download_button(
-                    label="Download CSV",
-                    data=csv,
-                    file_name='processed_data.csv',
-                    mime='text/csv'
-                )
+
         except Exception as e:
             st.error(f"Error: {str(e)}")
 
