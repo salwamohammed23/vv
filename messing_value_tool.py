@@ -128,6 +128,7 @@ def generate_scatter_plots(df):
 
 # Main function
 def main():
+    st.header("DataPrepViz")
     continuous_features_tdeal = st.sidebar.selectbox('Choose the way to treat continuous features:', ["mean()", "median()", "mode()"])
     categorical_features_tdeal = st.sidebar.selectbox("Choose the way to treat categorical features:", ["ordinal_encoder"])
 
