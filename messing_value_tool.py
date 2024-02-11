@@ -134,7 +134,7 @@ def main():
             target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
             st.write('--------------------------------------------------------------------------------------------')
             if st.button('Display visualization'):
-                 generate_box_plots(data)
+                generate_box_plots(data)
                 generate_scatter_plots(data)
                 generate_histograms(data)
             st.write('--------------------------------------------------------------------------------------------')   
