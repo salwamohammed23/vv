@@ -79,8 +79,7 @@ def wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal):
 
 # Function to generate histograms
 def generate_histograms(data):
-    
-    for col in df.select_dtypes(include='number'):
+    for col in data.select_dtypes(include='number'):
         plt.figure()
         fig, ax = plt.subplots()
         ax =sns.histplot(data[col])
@@ -90,14 +89,12 @@ def generate_histograms(data):
 
 # Function to generate box plots
 def generate_box_plots(data):
-    for col in df.select_dtypes(include='number'):
+    for col in data.select_dtypes(include='number'):
         plt.figure()
         fig, ax = plt.subplots()
         ax =sns.boxplot(data=data[col])
         plt.title(f'Box Plot of {col}')
-        # After
-         
-        # ... Perform your plotting actions on the figure ...
+        
         st.pyplot(fig)
 # Function to generate scatter plots
 def generate_scatter_plots(data):
