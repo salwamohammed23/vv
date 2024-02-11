@@ -87,7 +87,7 @@ def wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal):
         st.write(data.isnull().sum())
     return data
  
-st.write('---------------------------------------------------------------------------------------------------------------------------------------')
+
 # Function to generate histograms
 def generate_histograms(data):
     for col in data.select_dtypes(include='number'):
@@ -140,7 +140,7 @@ def main():
         try:
             data = wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal)
             st.sidebar.success('Data successfully loaded!')
-
+            st.write('---------------------------------------------------------------------------------------------------------------------------------------')
             # Select target variable
             target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
 
