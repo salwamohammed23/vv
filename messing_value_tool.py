@@ -111,10 +111,8 @@ def generate_scatter_plots(data):
 #apply sttreamlit
 ################################################333333333
 def main():
-    continuous_features_tdeal  = st.sidebar.selectbox('choose the way to treat continuous features :',  ["mean()", "median()", "mode()"])
-    categorical_features_tdeal = st.sidebar.selectbox("choose the way to treat categorical features  :",  ["ordinal_encoder"])
-
-    
+    continuous_features_tdeal = st.sidebar.selectbox('choose the way to treat continuous features :', ["mean()", "median()", "mode()"])
+    categorical_features_tdeal = st.sidebar.selectbox("choose the way to treat categorical features  :", ["ordinal_encoder"])
 
     # Load data
     st.sidebar.subheader("File Selection")
@@ -130,39 +128,30 @@ def main():
             data = wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal)
             st.sidebar.success('Data successfully loaded!')
             st.write(data.head())
-                # Select target variable
+
+            # Select target variable
             target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
-                # Exploratory Data Analysis
-            #exploratory_data_analysis = st.radio("Do you want to explore your data?", ('Yes', 'No'))
-            #if exploratory_data_analysis == 'Yes':
-                    # Generate histograms
-                #generate_histograms(data)
 
-                    # Generate box plots
-                #generate_box_plots(data)
-
-                    # Generate scatter plots
-                #generate_scatter_plots(data)
-
-                # Display Statistical
+            # Display Statistical
             display_statistical = st.radio("Do you want to get statistical summary for your data?", ('Yes', 'No'))
             if display_statistical == 'Yes':
                 st.write(data.describe())
                 st.write('Mode')
                 st.write(data.mode().iloc[0])
-            # Perform other preprocessing steps as needed
+
+            # Add a button to download processed data
+            if st.button('Download Processed Data'):
+                # Convert DataFrame to CSV and set the appropriate filename
+                csv = data.to_csv(index=False)
+                st.download_button(
+                    label="Download CSV",
+                    data=csv,
+                    file_name='processed_data.csv',
+                    mime='text/csv'
+                )
         except Exception as e:
             st.error(f"Error: {str(e)}")
 
-
-     
-
-    #####################################################################
- 
-  
-  
-
-  
 
 if __name__ == '__main__':
     main()
