@@ -64,14 +64,19 @@ def handle_normalize_missing_values(data, categorical_features_tdeal, continuous
 # Function to wrangle data
 def wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal):
     data = load_data(file_path)
-    st.write('sum of nul value befor')
-    st.write(data.isnull().sum())
-    st.write('--------------------------------------------------------------------------------------------')
-    data = handle_duplicate_values(data)
-    data = handle_normalize_missing_values(data, categorical_features_tdeal, continuous_features_tdeal)
-    st.write('sum of nul value after')
-    st.write(data.isnull().sum())
+    col1, col2 = st.columns(2)
+    with col1:
+        st.write('sum of nul value befor')
+        st.write(data.isnull().sum())
+    with col2:
+      
+    
+        data = handle_duplicate_values(data)
+        data = handle_normalize_missing_values(data, categorical_features_tdeal, continuous_features_tdeal)
+        st.write('sum of nul value after')
+        st.write(data.isnull().sum())
     return data
+    st.write('--------------------------------------------------------------------------------------------')
 
 # Function to generate histograms
 def generate_histograms(data):
