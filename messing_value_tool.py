@@ -105,12 +105,14 @@ def generate_scatter_plots(df):
             if i < j:
                 plt.figure()
                 fig, ax = plt.subplots()
-                ax = sns.scatterplot(data=df, x=col1, y=col2)
+                ax = sns.scatterplot(data=df, x=col1, y=col2, color='blue')  # يمكنك استبدال 'blue' بأي لون تريده
                 plt.title(f'Scatter Plot of {col1} vs {col2}')
                 # After
                  
                 # ... Perform your plotting actions on the figure ...
-                st.pyplot(fig)
+
+    st.pyplot(fig)  # Move this line outside the for loop to display the final figure after all plots are generated
+
                 
 
 
