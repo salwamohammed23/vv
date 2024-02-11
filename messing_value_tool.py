@@ -70,8 +70,6 @@ def wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal):
         st.write('sum of nul value befor')
         st.write(data.isnull().sum())
     with col2:
-      
-    
         data = handle_duplicate_values(data)
         data = handle_normalize_missing_values(data, categorical_features_tdeal, continuous_features_tdeal)
         st.write('sum of nul value after')
@@ -80,6 +78,24 @@ def wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal):
  
 
 # Function to generate histograms
+# Function to generate histograms
+def generate_histograms(data):
+    for col in data.select_dtypes(include='number'):
+        fig, ax = plt.subplots()
+        sns.histplot(data[col], ax=ax)
+        st.pyplot(fig)
+        st.title(f'Histogram of {col}')
+        fig.savefig('path/to/save/figure.png')
+
+# Function to generate box plots
+def generate_box_plots(data):
+    for col in data.select_dtypes(include='number'):
+        fig, ax = plt.subplots()
+        sns.boxplot(data[col], ax=ax)
+        st.pyplot(fig)
+        st.title(f'boxplot of {col}')
+        fig.savefig('path/to/save/figure.png')
+/*
 def generate_histograms(data):
     for col in data.select_dtypes(include='number'):
         fig, ax = plt.subplots()
@@ -94,6 +110,7 @@ def generate_box_plots(data):
         sns.boxplot(data[col], ax=ax)
         st.pyplot(fig)
         st.title(f'boxplot of {col}')
+        */
     
 
 # Function to generate scatter plots
