@@ -99,21 +99,20 @@ def generate_box_plots(data):
 # Function to generate scatter plots
 def generate_scatter_plots(df):
     numerical_cols = df.select_dtypes(include='number').columns
-    colors = ['blue', 'red', 'green', 'orange', 'purple', 'yellow']  # يمكنك إضافة المزيد من الألوان حسب الحاجة
 
     for i, col1 in enumerate(numerical_cols):
         for j, col2 in enumerate(numerical_cols):
             if i < j:
                 plt.figure()
                 fig, ax = plt.subplots()
-                color_idx = (i + j) % len(colors)  # حساب فهرس اللون بناءً على المؤشرات i و j
-                ax = sns.scatterplot(data=df, x=col1, y=col2, color=colors[color_idx])
+                ax = sns.scatterplot(data=df, x=col1, y=col2, color='blue')  # يمكنك استبدال 'blue' بأي لون تريده
                 plt.title(f'Scatter Plot of {col1} vs {col2}')
                 # After
                  
                 # ... Perform your plotting actions on the figure ...
 
     st.pyplot(fig)  # Move this line outside the for loop to display the final figure after all plots are generated
+
 
                 
 
