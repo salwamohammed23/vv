@@ -95,22 +95,7 @@ def generate_box_plots(data):
         st.pyplot(fig)
         st.title(f'boxplot of {col}')
         fig.savefig('path/to/save/figure.png')
-/*
-def generate_histograms(data):
-    for col in data.select_dtypes(include='number'):
-        fig, ax = plt.subplots()
-        sns.histplot(data[col], ax=ax)
-        st.pyplot(fig)
-        st.title(f'Histogram of {col}')
  
-# Function to generate box plots
-def generate_box_plots(data):
-    for col in data.select_dtypes(include='number'):
-        fig, ax = plt.subplots()
-        sns.boxplot(data[col], ax=ax)
-        st.pyplot(fig)
-        st.title(f'boxplot of {col}')
-        */
     
 
 # Function to generate scatter plots
