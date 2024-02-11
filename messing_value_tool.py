@@ -140,6 +140,8 @@ def main():
 
     if file_path is not None:
         try:
+                    # Split the page into two tabs
+            tab1, tab2= st.tabs(["Image Generate App", "Text Generation App"])
             data = wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal)
             st.sidebar.success('Data successfully loaded!')
 
