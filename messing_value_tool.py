@@ -140,42 +140,37 @@ def main():
 
     if file_path is not None:
         try:
-                    # Split the page into two tabs
-            tab1, tab2= st.tabs(["Image Generate App", "Text Generation App"])
+
             data = wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal)
             st.sidebar.success('Data successfully loaded!')
 
             # Select target variable
             target_variable = st.sidebar.selectbox('Select the target variable', data.columns)
-            st.write('--------------------------------------------------------------------------------------------')
-            if st.button('Display visualization'):
-                generate_box_plots(data)
-                generate_scatter_plots(data)
-                generate_histograms(data)
-            st.write('--------------------------------------------------------------------------------------------')   
-                
-         
-
-            col1, col2 = st.columns(2)
-            with col1:
-                
-                # Add a button to download processed data
-                if st.button('Download Processed Data'):
-                    # Convert DataFrame to CSV and set the appropriate filename
-                    csv = data.to_csv(index=False)
-                    st.download_button(
-                        label="Download CSV",
-                        data=csv,
-                        file_name='processed_data.csv',
-                        mime='text/csv'
-                    )
-
-            with col2:
-                # Display Statistical
-                if st.button('Display Statistical Summary'):
-                    st.write(data.describe())
-                    st.write('Mode')
-                    st.write(data.mode().iloc[0])
+                                # Split the page into two tabs
+            tab1, tab2,tab3= st.tabs(["Display visualization", "Download Processed Data","Display Statistical"])
+                    with tab1:            
+                            if st.button('Display visualization'):
+                            generate_box_plots(data)
+                            generate_scatter_plots(data)
+                            generate_histograms(data)
+                    with tab2: 
+                        # Add a button to download processed data
+                            if st.button('Download Processed Data'):
+                                # Convert DataFrame to CSV and set the appropriate filename
+                                csv = data.to_csv(index=False)
+                                st.download_button(
+                                    label="Download CSV",
+                                    data=csv,
+                                    file_name='processed_data.csv',
+                                    mime='text/csv'
+                                )
+                                
+                    with tab3:                                            
+                            # Display Statistical
+                            if st.button('Display Statistical Summary'):
+                                st.write(data.describe())
+                                st.write('Mode')
+                                st.write(data.mode().iloc[0])
 
         except Exception as e:
             st.error(f"Error: {str(e)}")
