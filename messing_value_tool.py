@@ -5,6 +5,16 @@ import seaborn as sns
 import os
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder, OrdinalEncoder
 from sklearn.impute import SimpleImputer
+# Add custom CSS to hide the footer, header
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
 
 # Function to load data
 def load_data(file_path):
