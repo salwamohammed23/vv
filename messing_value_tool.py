@@ -64,6 +64,7 @@ def handle_normalize_missing_values(data, categorical_features_tdeal, continuous
 # Function to wrangle data
 def wrangle(file_path, categorical_features_tdeal, continuous_features_tdeal):
     data = load_data(file_path)
+    st.write(data.head(3))
     col1, col2 = st.columns(2)
     with col1:
         st.write('sum of nul value befor')
@@ -134,7 +135,7 @@ def main():
 
             col1, col2 = st.columns(2)
             with col1:
-                st.write(data.head())
+                
                 # Add a button to download processed data
                 if st.button('Download Processed Data'):
                     # Convert DataFrame to CSV and set the appropriate filename
